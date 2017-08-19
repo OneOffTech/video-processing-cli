@@ -47,7 +47,32 @@ module.exports = {
                 throw new Error('ffprobe not found in path or in bin folder');
             }
         }
+        
+    },
+    
+    /**
+     * The FFMPEG executable path
+     * 
+     * @return {string}
+     */
+    ffmpeg: function(){
+        
+        try {
+            
+            return which.sync(FFMPEG_BINARY);
 
+        } catch (error) {
+
+            var alternatePath = BINARY_FOLDER + FFMPEG_BINARY;
+
+            if(fs.existsSync(alternatePath)){
+                return alternatePath;
+            }
+            else{
+                throw new Error('ffprobe not found in path or in bin folder');
+            }
+        }
+        
     }
     
 };

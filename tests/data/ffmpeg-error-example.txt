@@ -1,0 +1,38 @@
+Command failed: "./bin/ffmpeg.exe" -i D:\Videos\WP_20170813_10_34_26_Pro.mp4 -ss X "D:\Videos\WP_20170813_10_34_26_Pro.png"
+ffmpeg version N-86994-g92da230 Copyright (c) 2000-2017 the FFmpeg developers
+  built with gcc 7.1.0 (GCC)
+  configuration: --enable-gpl --enable-version3 --enable-cuda --enable-cuvid --enable-d3d11va --enable-dxva2 --enable-libmfx --enable-nve
+nc --enable-avisynth --enable-bzlib --enable-fontconfig --enable-frei0r --enable-gnutls --enable-iconv --enable-libass --enable-libbluray
+ --enable-libbs2b --enable-libcaca --enable-libfreetype --enable-libgme --enable-libgsm --enable-libilbc --enable-libmodplug --enable-lib
+mp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-librtmp
+ --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvo-amrwbenc
+ --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs --enable-libx
+vid --enable-libzimg --enable-lzma --enable-zlib
+  libavutil      55. 74.100 / 55. 74.100
+  libavcodec     57.102.100 / 57.102.100
+  libavformat    57. 76.100 / 57. 76.100
+  libavdevice    57.  7.100 / 57.  7.100
+  libavfilter     6. 99.100 /  6. 99.100
+  libswscale      4.  7.102 /  4.  7.102
+  libswresample   2.  8.100 /  2.  8.100
+  libpostproc    54.  6.100 / 54.  6.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'D:\Videos\WP_20170813_10_34_26_Pro.mp4':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: mp41isom
+    creation_time   : 2017-08-13T08:34:26.000000Z
+    location        : +46.3616+12.1955/
+    location-eng    : +46.3616+12.1955/
+  Duration: 00:00:28.15, start: 0.016021, bitrate: 17960 kb/s
+    Stream #0:0(und): Video: h264 (Main) (avc1 / 0x31637661), yuvj420p(pc, bt470bg/smpte170m/bt709), 1920x1080 [SAR 1:1 DAR 16:9], 17756
+kb/s, 29.98 fps, 30 tbr, 30k tbn, 60 tbc (default)
+    Metadata:
+      creation_time   : 2017-08-13T08:34:26.000000Z
+      handler_name    : VideoHandler
+      encoder         : AVC Coding
+    Stream #0:1(und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, stereo, fltp, 195 kb/s (default)
+    Metadata:
+      creation_time   : 2017-08-13T08:34:26.000000Z
+      handler_name    : SoundHandler
+Invalid duration specification for ss: X

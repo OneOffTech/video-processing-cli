@@ -10,7 +10,7 @@ A command line tool that hides the complexity of ffmpeg to produce a DASH/HLS pl
 
 In order to use the video-processing-cli you need
 
-- FFMPEG version 3.3.3 or above
+- [FFMPEG](https://ffmpeg.org/) version 3.3.3 or above
 - [Shaka Packager](https://github.com/google/shaka-packager/releases) version 1.9.6 or above
 
 The binaries can be added to the shell/command line PATH or in a `/bin` folder. 
@@ -91,6 +91,40 @@ bitrate 17.960469 Mbit/s
 video h264 1920x1080
 audio aac 48 KHz
 ```
+
+### `thumbnail`
+
+Extract information about a video file. Extracted information includes codecs, resolution, duration,...
+
+```bash
+thumbnail <file> <output_path>
+```
+
+**Arguments**
+
+- `file` the video file path
+- `output_path` the existing folder in which the thumbnail will be saved
+
+**Options**
+
+- `--format <format>` the format of the thumbnail, available formats are `png` and `jpg`
+- `--out <name>` the name (with extension) of the file thumbnail
+
+**Output**
+
+The output will be written, by default, in a file named with the original video name and with extension `png`.
+
+**Errors**
+
+In case of processing error a message will be written on standard error. 
+
+**Example**
+
+```bash
+$ video-processing-cli thumbnail ./videos/video.mp4 ./videos/covers/
+```
+
+The output is a file called `video.png` in the `./videos/covers/` folder.
 
 ## Development
 

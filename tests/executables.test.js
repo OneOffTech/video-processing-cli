@@ -21,6 +21,10 @@ test('ffprobe functions is defined', () => {
     expect(Executables.ffprobe).not.toBeUndefined();
 });
 
+test('ffmpeg functions is defined', () => {
+    expect(Executables.ffmpeg).not.toBeUndefined();
+});
+
 // ffprobe function
 
 test('ffprobe is found in bin folder', () => {
@@ -43,5 +47,29 @@ test('ffprobe is not found', () => {
     process.chdir('./tests');
 
     expect(() => { Executables.ffprobe() }).toThrow();
+});
+
+// ffmpeg function
+
+test('ffmpeg is found in bin folder', () => {
+    
+    var filePath = isWindows ? './bin/ffmpeg.exe' : './bin/ffmpeg';
+    
+    // generate a file that matches the expected binary name
+    // but only if is not existing yet
+    if(!fs.existsSync(filePath)){
+        fs.closeSync(fs.openSync(filePath, 'w'));
+    }
+
+    expect(Executables.ffmpeg()).toBe(filePath);
+
+});
+
+test('ffmpeg is not found', () => {
+    
+    // changing directory to simulate a location without the bin sub-folder
+    process.chdir('./tests');
+
+    expect(() => { Executables.ffmpeg() }).toThrow();
 });
 
