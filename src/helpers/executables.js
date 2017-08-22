@@ -73,6 +73,31 @@ module.exports = {
             }
         }
         
+    },
+    
+    /**
+     * The Shaka Packager executable path
+     * 
+     * @return {string}
+     */
+    shakaPackager: function(){
+        
+        try {
+            
+            return which.sync(SHAKA_PACKAGER_BINARY);
+
+        } catch (error) {
+
+            var alternatePath = BINARY_FOLDER + SHAKA_PACKAGER_BINARY;
+
+            if(fs.existsSync(alternatePath)){
+                return alternatePath;
+            }
+            else{
+                throw new Error(`Shaka Packager ${SHAKA_PACKAGER_BINARY} not found in path or in bin folder`);
+            }
+        }
+        
     }
     
 };

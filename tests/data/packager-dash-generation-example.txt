@@ -1,0 +1,47 @@
+[0821/203231:INFO:demuxer.cc(58)] Initialize Demuxer for file 'D:\Videos\WP_20170813_10_34_26_Pro-360.mp4'.
+
+[0821/203231:INFO:demuxer.cc(58)] Initialize Demuxer for file 'D:\Videos\WP_20170813_10_34_26_Pro-540.mp4'.
+
+[0821/203231:INFO:demuxer.cc(58)] Initialize Demuxer for file 'D:\Videos\WP_20170813_10_34_26_Pro.mp4'.
+
+[0821/203231:INFO:demuxer.cc(170)] Demuxer::Run() on file 'D:\Videos\WP_20170813_10_34_26_Pro-360.mp4'.
+
+[0821/203231:INFO:demuxer.cc(170)] Demuxer::Run() on file 'D:\Videos\WP_20170813_10_34_26_Pro-540.mp4'.
+
+[0821/203231:WARNING:mp4_muxer.cc(324)] Unexpected seek preroll for codec 6
+
+[0821/203231:WARNING:mp4_muxer.cc(324)] Unexpected seek preroll for codec 6
+
+[0821/203231:INFO:demuxer.cc(170)] Demuxer::Run() on file 'D:\Videos\WP_20170813_10_34_26_Pro.mp4'.
+
+[0821/203231:INFO:single_segment_segmenter.cc(90)] Update media header (moov) and rewrite the file to 'D:\Videos\WP_20170813_10
+_34_26_Pro-540_video.mp4'.
+
+[0821/203231:INFO:single_segment_segmenter.cc(90)] Update media header (moov) and rewrite the file to 'D:\Videos\WP_20170813_10
+_34_26_Pro-360_video.mp4'.
+
+[0821/203232:INFO:single_segment_segmenter.cc(90)] Update media header (moov) and rewrite the file to 'D:\Videos\WP_20170813_10
+_34_26_Pro_video.mp4'.
+
+[0821/203238:INFO:mp4_muxer.cc(172)] MP4 file 'D:\Videos\WP_20170813_10_34_26_Pro-360_video.mp4' finalized.
+
+[0821/203238:INFO:single_segment_segmenter.cc(90)] Update media header (moov) and rewrite the file to 'D:\Videos\WP_20170813_10
+_34_26_Pro-360_audio.mp4'.
+
+[0821/203238:INFO:mp4_muxer.cc(172)] MP4 file 'D:\Videos\WP_20170813_10_34_26_Pro-540_video.mp4' finalized.
+
+[0821/203238:INFO:single_segment_segmenter.cc(90)] Update media header (moov) and rewrite the file to 'D:\Videos\WP_20170813_10
+_34_26_Pro-540_audio.mp4'.
+
+[0821/203241:INFO:mp4_muxer.cc(172)] MP4 file 'D:\Videos\WP_20170813_10_34_26_Pro-360_audio.mp4' finalized.
+
+[0821/203241:INFO:mp4_muxer.cc(172)] MP4 file 'D:\Videos\WP_20170813_10_34_26_Pro-540_audio.mp4' finalized.
+
+[0821/203241:INFO:mp4_muxer.cc(172)] MP4 file 'D:\Videos\WP_20170813_10_34_26_Pro_video.mp4' finalized.
+
+[0821/203241:INFO:single_segment_segmenter.cc(90)] Update media header (moov) and rewrite the file to 'D:\Videos\WP_20170813_10
+_34_26_Pro_audio.mp4'.
+
+[0821/203242:INFO:mp4_muxer.cc(172)] MP4 file 'D:\Videos\WP_20170813_10_34_26_Pro_audio.mp4' finalized.
+
+Packaging completed successfully.

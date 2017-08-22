@@ -3,50 +3,48 @@
 const Executables = require('./executables');
 const exec = require('child_process').exec;
 const fs = require('fs');
+const Path = require('path');
 
 /**
- * FFMPEG.
+ * Shaka Packager for DASH files.
  * 
- * Wrapper around ffmpeg binary to process a video
+ * Wrapper around shaka-packager binary to generate a DASH manifest
  */
-module.exports = function(file){
+module.exports = function(){
     
-    var default_options = [
-        '-i ' + file
-    ];
-
-    if(!fs.existsSync(file)){
-        throw new Error(`File ${file} don't exists`);
-    }
-
     return {
-
+        
         /**
-         * Generate a thumbnail.
+         * Generate a DASH manifest.
          * 
-         * By defuault tries to find the most representative frame of the video
          * 
-         * @param {string} output the output path with filename and extension
+         * @param {Array} files the input files that will be used for the playlist
+         * @param {string} mdpOutput the MDP manifest to output
          * @param {Object} options customize the thumbnail generation. The only supported option is `time`, which specifies the timstamp of the frame to use for the thumbnail
          * @return {Promise}
          */
-        thumbnail: function (output, options) {
+        generate: function (files, mdpOutput, options) {
             
-            var thumbnailOptions = [
-                // if time is specified, use the time
-                // otherwise let ffmpeg try to find the most representative frame
-                // https://superuser.com/questions/538112/meaningful-thumbnails-for-a-video-using-ffmpeg
-                options && options.time ? '-ss ' + options.time : '-vf  "thumbnail"',
-                '-vframes 1',
-                '-y',
+            var packager_options = [
+            ];
+
+            files.forEach(function(file){
+                var filename = Path.join(Path.dirname(file), Path.basename(file, Path.extname(file)));
+                packager_options.push(`input=${filename}.mp4,stream=audio,output=${filename}_audio.mp4 input=${filename}.mp4,stream=video,output=${filename}_video.mp4`)
+            });
+
+            var _options = [
+                options && options.minBufferTime ? '--min_buffer_time ' + options.minBufferTime : '--min_buffer_time 3',
+                options && options.segmentDuration ? '--segment_duration ' + options.segmentDuration : '--segment_duration 3',
+                `--mpd_output ${mdpOutput}.mdp`
             ]
             
-            var command = '"' + Executables.ffmpeg() + '" ' + default_options.concat(thumbnailOptions, '"' + output + '"').join(' ');
+            var command = '"' + Executables.shakaPackager() + '" ' + packager_options.concat(_options).join(' ');
             
             return new Promise(function (resolve, reject) {
                 
                 // using exec as the size of the output buffer should not be a problem for memory comsumption
-                var ffmpeg = exec(command, (err, stdout, stderr) => {
+                var packager = exec(command, (err, stdout, stderr) => {
                     if (err) {
                         // node couldn't execute the command
                         reject(err);
@@ -55,6 +53,16 @@ module.exports = function(file){
                     
                     resolve(stdout);
                 });
+
+                // packager.stdout.on('data', function(data) {
+                //     console.log('packager: ' + data);
+                // });
+                // packager.stderr.on('data', function(data) {
+                //     console.log('packager: ' + data);
+                // });
+                // packager.on('close', function(code) {
+                //     console.log('packager: closing code = ' + code);
+                // });
             });
         },
         
@@ -72,10 +80,22 @@ module.exports = function(file){
             // -maxrate 1500k -bufsize 1000k
             // -maxrate <int> E..VA. Set maximum bitrate tolerance (in bits/s). Requires bufsize to be set. (from INT_MIN to INT_MAX)
             // -bufsize <int> E..VA. set ratecontrol buffer size (in bits) (from INT_MIN to INT_MAX)
+
             // -ar audio sampling frequency KHz
             // -ac set the number of audio channels
             // -c:a set the audio codec
             // -ab (o -b:a) is still obscure
+
+            // # Full to 720p
+            // ffmpeg -y -i /src/sample.mp4 -c:a aac -ac 2 -ab 256k -ar 48000 -c:v libx264 -x264opts 'keyint=24:min-keyint=24:no-scenecut' -b:v 1500k -maxrate 1500k -bufsize 1000k -vf "scale=-1:720" /src/sample720.mp4
+            
+            // # Full to 540p
+            // ffmpeg -y -i /src/sample.mp4 -c:a aac -ac 2 -ab 128k -ar 44100 -c:v libx264 -x264opts 'keyint=24:min-keyint=24:no-scenecut' -b:v 800k -maxrate 800k -bufsize 500k -vf "scale=-1:540" /src/sample540.mp4
+            
+            // # Full to 360p
+            // ffmpeg -y -i /src/sample.mp4 -c:a aac -ac 2 -ab 128k -ar 22050 -c:v libx264 -x264opts 'keyint=24:min-keyint=24:no-scenecut' -b:v 400k -maxrate 400k -bufsize 400k -vf "scale=-1:360" /src/sample360.mp4
+
+            console.log('Scaling started for ' + options.name);
 
             var scaleOptions = [
                 '-y',
@@ -104,20 +124,20 @@ module.exports = function(file){
                         return;
                     }
 
-                    // console.log('Scaling finished for ', options.name, outputfile);
+                    console.log('Scaling finished for ', options.name, outputfile);
 
                     resolve(outputfile);
                 });
 
-                // ffmpeg.stdout.on('data', function(data) {
-                //     console.log(options.name+': ' + data);
-                // });
-                // ffmpeg.stderr.on('data', function(data) {
-                //     console.log(options.name+': ' + data);
-                // });
-                // ffmpeg.on('close', function(code) {
-                //     console.log(options.name+': closing code = ' + code);
-                // });
+                ffmpeg.stdout.on('data', function(data) {
+                    console.log(options.name+': ' + data);
+                });
+                ffmpeg.stderr.on('data', function(data) {
+                    console.log(options.name+': ' + data);
+                });
+                ffmpeg.on('close', function(code) {
+                    console.log(options.name+': closing code = ' + code);
+                });
             });
 
         }

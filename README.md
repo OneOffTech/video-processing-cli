@@ -126,6 +126,49 @@ $ video-processing-cli thumbnail ./videos/video.mp4 ./videos/covers/
 
 The output is a file called `video.png` in the `./videos/covers/` folder.
 
+### `process`
+
+Generates a DASH manifest for "streaming" a video file. 
+
+While generating the playlist it also generates different downscaled versions of the original video files. This downscaled versions will be used by the player to select the appropriate stream to play. More information on the processing can be found in the [Video Processing](#video-processing) section.
+
+The original video file will not be touched or moved.
+
+```bash
+process <file> <output_path>
+```
+
+**Arguments**
+
+- `file` the video file path
+- `output_path` the existing folder in which the thumbnail will be saved
+
+**Output**
+
+The output is a set of video files whose name is the same of the original video, but suffixed with the frame height and a `mdp` file named the same as the source video.
+
+**Errors**
+
+In case of processing error a message will be written on standard error. 
+
+**Example**
+
+```bash
+$ video-processing-cli process ./videos/video.mp4 ./videos/
+```
+
+## Video Processing
+
+The main aim of the processing pipeline is to generate a manifest for a video player, respecting the DASH and HLS specifications, to enable the playback of the video file on different devices and according to the available bandwidth.
+
+The first part of the pipeline take the video file and produce downscaled versions of it. The number of downscaled versions depends on the original resolution of the video source.
+
+In general the output are 1080p (Full HD), 720p (HD Ready), 540p and 360p for mobile with constrained bandwidth. In case the video source is not Full HD, it will not be upscaled and the maximum resolution for the video will be the original one.
+
+After the conversion the DASH playlist manifest is generated with a 3 seconds segment duration, so the player can switch the video from one resolution to the other every 3 seconds.
+
+In the DASH playlist audio and video streams are separated.
+
 ## Development
 
 The development of the video-processing-cli is done in NodeJS. The dependencies are managed via Yarn.
