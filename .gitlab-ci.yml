@@ -1,0 +1,51 @@
+## Continuous Integration Jobs definition
+
+stages:
+  - test
+  - build
+  - release
+
+cache:
+  key: "video-cli"
+  paths:
+  - .npm-cache
+
+test:
+  image: node:6
+  stage: test
+  before_script:
+    - npm config set cache .npm-cache
+    - npm install -q
+  script:
+   - npm run test
+  tags:
+    - docker
+  allow_failure: true
+
+## Build the standalone executables
+package:
+  image: node:6
+  stage: build
+  before_script:
+    - npm config set cache .npm-cache
+    - npm install -q
+  script:
+   - npm run production
+   - ./dist/video-processing-cli-linux --help
+  tags:
+    - docker
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist
+
+## Build the docker image with the CLI application
+package_docker:
+  stage: build
+  script:
+   - docker --version
+   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+   - docker build -t $CI_REGISTRY_IMAGE .
+   - docker push $CI_REGISTRY_IMAGE
+  tags:
+    - deploy

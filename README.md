@@ -13,8 +13,8 @@ In order to use the video-processing-cli you need
 - [FFMPEG](https://ffmpeg.org/) version 3.3.3 or above
 - [Shaka Packager](https://github.com/google/shaka-packager/releases) version 1.9.6 or above
 
-The binaries can be added to the shell/command line PATH or in a `/bin` folder. 
-The `/bin` folder must be in the same working directory where the 
+The binaries can be added to the shell/command line PATH or in a `bin` folder. 
+The `bin` folder must be in the same working directory where the 
 video-processing-cli will be executed.
 
 **Grab the video-processing-cli binary**
@@ -23,7 +23,11 @@ Currently there are no pre-built binary that can be downloaded, therefore you ne
 to clone/download the repository and follow the instruction in the 
 [Development](#development) section.
 
+Alternatively a docker image is available, see [Usage via Docker](#via-docker-image).
+
 ### Usage
+
+#### via Executable file
 
 Once grabbed the binary file, you can run it on the shell/command prompt
 
@@ -47,6 +51,33 @@ $ video-processing-cli-linux <command> --help
 ```
 
 and the list of available arguments and options for the specified command will be listed
+
+#### via Docker image
+
+A packaged version, in the form of a Docker image, is available. 
+The image is hosted at `docker.klink.asia`
+
+```bash
+docker pull docker.klink.asia/alessio.vertemati/video-processing-cli:latest
+```
+
+The image is configured with the `video-processing-cli` executable as the entry point. 
+The working directory is `/video-processing-cli`.
+
+Running
+
+```bash
+docker run --rm docker.klink.asia/alessio.vertemati/video-processing-cli:latest
+```
+
+will output the help message.
+
+To execute the other commands mount a volume with your videos and use one of the [available commands](#available-commands)
+
+```bash
+docker run --rm -v "./source:/video-processing-cli/videos" \ 
+                   docker.klink.asia/alessio.vertemati/video-processing-cli:latest <command>
+```
 
 ## Available commands
 
@@ -184,6 +215,8 @@ $ yarn
 
 ### Building
 
+#### the cross platform binary
+
 Distributable binary files are generated via PKG.
 
 To generate an executable file for Windows, Linux and MacOS use
@@ -194,6 +227,16 @@ npm run production
 
 This will generate three executables in the `/dist` folder. Each one will have a 
 suffix based on the operating system it targets.
+
+#### the Docker image
+
+You can build the Docker image via
+
+```bash
+docker build -t video-processing-cli .
+```
+
+The image is built via a [multi-stage build](https://docs.docker.com/engine/userguide/eng-image/multistage-build/), therefore Docker `>= 17.05` is required.
 
 ### Running unit tests
 
