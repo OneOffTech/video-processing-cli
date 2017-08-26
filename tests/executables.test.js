@@ -34,6 +34,7 @@ test('ffprobe is found in bin folder', () => {
     // generate a file that matches the expected binary name
     // but only if is not existing yet
     if(!fs.existsSync(filePath)){
+        fs.mkdirSync('./bin');
         fs.closeSync(fs.openSync(filePath, 'w'));
     }
 
