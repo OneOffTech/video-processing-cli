@@ -20,7 +20,6 @@ test:
    - npm run test
   tags:
     - docker
-  allow_failure: true
 
 ## Build the standalone executables
 package:
@@ -35,7 +34,6 @@ package:
   tags:
     - docker
   artifacts:
-    expire_in: 1 week
     paths:
       - dist
 
@@ -49,3 +47,6 @@ package_docker:
    - docker push $CI_REGISTRY_IMAGE
   tags:
     - deploy
+  only:
+    - tags
+    - master

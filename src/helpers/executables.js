@@ -7,7 +7,7 @@ const isWindows = require('os').platform().match(/win(32|64)/);
 
 const FFPROBE_BINARY = isWindows ? 'ffprobe.exe' : 'ffprobe';
 const FFMPEG_BINARY = isWindows ? 'ffmpeg.exe' : 'ffmpeg';
-const SHAKA_PACKAGER_BINARY = isWindows ? 'packager-win.exe' : 'packager';
+const SHAKA_PACKAGER_BINARY = isWindows ? 'packager-win.exe' : 'packager-linux';
 const BINARY_FOLDER = './bin/';
 
 var whichCache = {};

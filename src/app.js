@@ -15,6 +15,7 @@ const Log = require('./helpers/log');
 const DetailsCommand = require('./commands/details');
 const ThumbnailCommand = require('./commands/thumbnail');
 const ProcessCommand = require('./commands/process');
+const FetchBinariesCommand = require('./commands/fetch-binaries');
 
 program.version('0.0.0')
     .on('--help', function() {
@@ -64,6 +65,12 @@ program
         Log.text('    <thumbnail_path> where to save the thumbnail (required)');
         Log.text();
     });
+
+program
+    .command('fetch:binaries')
+    .alias('fetch:dependencies')
+    .description('Download the required FFMPEG and Shaka Packager binaries')
+    .action(FetchBinariesCommand);
 
 
 program.parse(process.argv);

@@ -2,6 +2,14 @@
 
 A command line tool that hides the complexity of ffmpeg to produce a DASH/HLS playlist from a video source.
 
+**features**
+
+* [x] Grab video files metadata
+* [x] Generate a thumbnail (or cover image) from a video file
+* [x] Generate low resolution version of a video file
+* [x] Generate a DASH manifest for video streaming
+* [ ] Generate a HLS playlist for video streaming
+
 ## Getting started
 
 ### Installation
@@ -19,11 +27,25 @@ video-processing-cli will be executed.
 
 **Grab the video-processing-cli binary**
 
-Currently there are no pre-built binary that can be downloaded, therefore you need 
-to clone/download the repository and follow the instruction in the 
-[Development](#development) section.
+Prebuilt binaries are available for Windows, MacOS and Linux. All binaries are for 64bit architecture.
+
+Binaries are automatically built for `master` and each tagged release. 
+[Download the latest `master` binaries](https://git.klink.asia/alessio.vertemati/video-processing-cli/builds/artifacts/master/browse/dist?job=package)
 
 Alternatively a docker image is available, see [Usage via Docker](#via-docker-image).
+
+**Fetching the requirements**
+
+If you don't have already FFMPEG and Shaka Packager on your system, you can run
+
+```bash
+$ video-processing-cli-linux fetch:binaries
+```
+
+This will download the standalone, statically linked, binaries for the requirements. The downloaded version is based on 
+your Operating System and architecture (32 or 64 bit).
+
+> A note for **MacOS** users: we currently don't support the automated download of FFMPEG. Pull requests are accepted.
 
 ### Usage
 
@@ -80,6 +102,11 @@ docker run --rm -v "./source:/video-processing-cli/videos" \
 ```
 
 ## Available commands
+
+- [`details` (or `info`)](#details-or-info)
+- [`thumbnail`](#thumbnail)
+- [`process`](#process)
+- [`fetch:binaries`](#fetchbinaries)
 
 ### `details` (or `info`)
 
@@ -186,6 +213,24 @@ In case of processing error a message will be written on standard error.
 
 ```bash
 $ video-processing-cli process ./videos/video.mp4 ./videos/
+```
+
+### `fetch:binaries`
+
+Download the statically linked binaries for FFMPEG and Shaka Packager.
+
+**Output**
+
+Binary files will be saved in `./bin`
+
+**Errors**
+
+In case of processing error a message will be written on standard error. 
+
+**Example**
+
+```bash
+$ video-processing-cli fetch:binaries
 ```
 
 ## Video Processing
