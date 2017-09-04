@@ -158,6 +158,7 @@ module.exports = function(command){
             
     } catch (error) {
         Log.error(error.message);
+        process.exit(1);
     }
 
 }

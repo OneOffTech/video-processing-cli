@@ -112,6 +112,7 @@ module.exports = function(file, path, command){
             
     } catch (error) {
         Log.error(error.message);
+        process.exit(1);
     }
 
 }

@@ -38,11 +38,12 @@ module.exports = function(file, command){
             .catch(function(err){ 
                 Log.error(`Not able to retrieve details from ${file}`);
                 Log.error(err.message);
-
+                process.exit(1);
             });
             
     } catch (error) {
         Log.error(error.message);
+        process.exit(1);
     }
 
 }
