@@ -36,7 +36,7 @@ module.exports = function(){
             var _options = [
                 options && options.minBufferTime ? '--min_buffer_time ' + options.minBufferTime : '--min_buffer_time 3',
                 options && options.segmentDuration ? '--segment_duration ' + options.segmentDuration : '--segment_duration 3',
-                `--mpd_output ${mdpOutput}.mdp`
+                `--mpd_output ${mdpOutput}.mpd`
             ]
             
             var command = '"' + Executables.shakaPackager() + '" ' + packager_options.concat(_options).join(' ');
