@@ -4,11 +4,15 @@ stages:
   - test
   - build
   - release
+  - publish
 
 cache:
   key: "video-cli"
   paths:
   - .npm-cache
+
+variables:
+    CONTAINER_RELEASE_IMAGE_BASE: $CI_REGISTRY/images/video-processing-cli
 
 test:
   image: node:6
@@ -43,10 +47,26 @@ package_docker:
   script:
    - docker --version
    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-   - docker build -t $CI_REGISTRY_IMAGE .
-   - docker push $CI_REGISTRY_IMAGE
+   - docker build -t $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} .
+   - docker push $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
   tags:
     - deploy
   only:
     - tags
     - master
+
+## Publishes the docker image on the public registry
+package_docker_publish:
+  stage: publish
+  only:
+    - tags
+  tags:
+    - dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}
+    - docker login -u $REGISTRY_RELEASE_USERNAME -p $REGISTRY_RELEASE_PASSWORD $CI_REGISTRY
+    - docker tag $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} "$CONTAINER_RELEASE_IMAGE_BASE:${CI_BUILD_REF_NAME/v/}"
+    - docker tag $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} "$CONTAINER_RELEASE_IMAGE_BASE:latest"
+    - docker push "$CONTAINER_RELEASE_IMAGE_BASE:latest"
+    - docker push "$CONTAINER_RELEASE_IMAGE_BASE:${CI_BUILD_REF_NAME/v/}"

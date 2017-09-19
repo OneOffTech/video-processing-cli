@@ -306,4 +306,4 @@ npm run test:watch
 
 ## License
 
-_to be written_
+This project is licensed under the AGPL v3 license, see [LICENSE.txt](./LICENSE.txt).
