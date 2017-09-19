@@ -1,8 +1,13 @@
 {
   "name": "video-processing-cli",
   "license": "AGPL-3.0",
+  "version": "0.1.0",
   "bin": "src/app.js",
   "private": true,
+  "author": {
+    "name": "Alessio Vertemati",
+    "email": "alessio@oneofftech.xyz"
+  },
   "engines": {
     "node": ">=6.0"
   },

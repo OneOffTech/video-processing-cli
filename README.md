@@ -10,6 +10,14 @@ A command line tool that hides the complexity of ffmpeg to produce a DASH/HLS pl
 * [x] Generate a DASH manifest for video streaming
 * [ ] Generate a HLS playlist for video streaming
 
+**supported Operating Systems**
+
+- Windows
+- Debian based Linux distributions, e.g. Debian, Ubuntu
+- MacOS (on Intel)
+
+The binaries are generated for 64 bit version of the OS
+
 ## Getting started
 
 ### Installation
@@ -30,7 +38,7 @@ video-processing-cli will be executed.
 Prebuilt binaries are available for Windows, MacOS and Linux. All binaries are for 64bit architecture.
 
 Binaries are automatically built for `master` and each tagged release. 
-[Download the latest `master` binaries](https://git.klink.asia/alessio.vertemati/video-processing-cli/builds/artifacts/master/browse/dist?job=package)
+[Download the latest `master` binaries](https://git.klink.asia/main/video-processing-cli/builds/artifacts/master/browse/dist?job=package)
 
 Alternatively a docker image is available, see [Usage via Docker](#via-docker-image).
 
@@ -80,7 +88,7 @@ A packaged version, in the form of a Docker image, is available.
 The image is hosted at `docker.klink.asia`
 
 ```bash
-docker pull docker.klink.asia/alessio.vertemati/video-processing-cli:latest
+docker pull docker.klink.asia/images/video-processing-cli:latest
 ```
 
 The image is configured with the `video-processing-cli` executable as the entry point. 
@@ -89,7 +97,7 @@ The working directory is `/video-processing-cli`.
 Running
 
 ```bash
-docker run --rm docker.klink.asia/alessio.vertemati/video-processing-cli:latest
+docker run --rm docker.klink.asia/images/video-processing-cli:latest
 ```
 
 will output the help message.
@@ -98,7 +106,7 @@ To execute the other commands mount a volume with your videos and use one of the
 
 ```bash
 docker run --rm -v "./source:/video-processing-cli/videos" \ 
-                   docker.klink.asia/alessio.vertemati/video-processing-cli:latest <command>
+                   docker.klink.asia/images/video-processing-cli:latest <command>
 ```
 
 ## Available commands
@@ -303,6 +311,12 @@ To continuously run the unit tests based on changed files execute
 ```bash
 npm run test:watch
 ```
+
+## Contributing
+
+Thank you for considering contributing to the Video Processing CLI!
+
+The contribution guide is not available yet, but in the meantime you can still submit Pull Requests.
 
 ## License
 
