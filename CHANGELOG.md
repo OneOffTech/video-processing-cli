@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Handling video with no audio stream in the dash elaboration
+- Handling of videos with height less then 360 pixels during dash elaboration
 
 ## [0.1.0] - 2017-09-19
 
