@@ -2,3 +2,6 @@ node_modules
 dist
 bin
 npm-debug.log
+videos/*_audio*
+videos/*_video*
+videos/*mpd

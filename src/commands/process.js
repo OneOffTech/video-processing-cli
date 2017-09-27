@@ -43,10 +43,14 @@ module.exports = function(file, path, command){
             Log.comment('Grabbed video source details. Start scaling down');
 
             var videoStream = null;
+            var hasAudioStream = false;
 
             details.streams.forEach(function(s){
                 if(s.codec_type==='video' && !videoStream){
                     videoStream = s;
+                }
+                if(s.codec_type==='audio' && !hasAudioStream){
+                    hasAudioStream = true;
                 }
             });
 
@@ -95,8 +99,13 @@ module.exports = function(file, path, command){
 
                     var mdpOutput = Path.join(path, Path.basename(file, Path.extname(file)));
 
+
+                    var dashOptions = Presets.DASH_DEFAULT;
+
+                    dashOptions.noAudio = !hasAudioStream;
+
                     // now is the packager turn
-                    return new Dash().generate([file].concat(values), mdpOutput, Presets.DASH_DEFAULT)
+                    return new Dash().generate([file].concat(values), mdpOutput, dashOptions)
                         .then(function(){
                             Log.success('MDP manifest generated');
                             values.forEach(function(f){

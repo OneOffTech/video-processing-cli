@@ -70,6 +70,7 @@ module.exports = {
     DASH_DEFAULT: {
         minBufferTime: 3, // seconds
         segmentDuration: 3, // seconds
+        noAudio: false
     } 
     
 };

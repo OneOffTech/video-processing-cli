@@ -207,7 +207,7 @@ process <file> <output_path>
 **Arguments**
 
 - `file` the video file path
-- `output_path` the existing folder in which the thumbnail will be saved
+- `output_path` the existing folder in which the artifacts will be saved
 
 **Output**
 
@@ -321,3 +321,7 @@ The contribution guide is not available yet, but in the meantime you can still s
 ## License
 
 This project is licensed under the AGPL v3 license, see [LICENSE.txt](./LICENSE.txt).
+
+## Credits
+
+The video used in the tests is [Aerial shot of mountain and ocean](https://videos.pexels.com/videos/aerial-shot-of-mountain-and-ocean-1469)

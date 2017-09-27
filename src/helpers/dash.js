@@ -30,7 +30,9 @@ module.exports = function(){
 
             files.forEach(function(file){
                 var filename = Path.join(Path.dirname(file), Path.basename(file, Path.extname(file)));
-                packager_options.push(`input=${filename}.mp4,stream=audio,output=${filename}_audio.mp4 input=${filename}.mp4,stream=video,output=${filename}_video.mp4`)
+                packager_options.push(options.noAudio ? 
+                    `input=${filename}.mp4,stream=video,output=${filename}_video.mp4` : 
+                    `input=${filename}.mp4,stream=audio,output=${filename}_audio.mp4 input=${filename}.mp4,stream=video,output=${filename}_video.mp4`)
             });
 
             var _options = [

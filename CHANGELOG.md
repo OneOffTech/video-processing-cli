@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Handling video with no audio stream in the dash elaboration
+
 ## [0.1.0] - 2017-09-19
 
 ### Added 
