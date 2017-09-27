@@ -74,9 +74,10 @@ module.exports = function(file, path, command){
                     Presets.SCALE_PRESETS.V360
                 ];
             }
-
-            if(scalingSettings==null){
-                throw new Error(`Unable to select the scaling settings for vertical resolution ${videoStream.height}`);
+            else {
+                // resolution too low, no scaling
+                scalingSettings = [];
+                Log.comment(`Vertical resolution ${videoStream.height} is below 540, so no scaling preset is selected.`);
             }
             
             // TODO: keep in mind that one scaling might fail, hence the promise will fail, but 
