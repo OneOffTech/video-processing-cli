@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## Added
+
+- JSON output for `details` command
+
 ### Fixed
 
 - Handling video with no audio stream in the dash elaboration

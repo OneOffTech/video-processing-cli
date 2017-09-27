@@ -29,6 +29,7 @@ program.version('0.0.0')
 program
     .command('details <file>')
     .alias('info')
+    .option('-j, --json', 'Output the video details in a JSON object.')
     .description('Extract the details from the video <file>')
     .action(DetailsCommand)
     .on('--help', function() {
