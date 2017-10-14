@@ -11,6 +11,23 @@ module.exports = {
     SCALE_PRESETS : {
 
         /**
+         * 1080p video, Full HD
+         * 
+         * fixed bitrate of 1500k, audio 2 channels 256k at 48KHz
+         */
+        V1080 : {
+            name: "1080",
+            videoBitrate: "3000k",
+            videoMaximumBitrate: "5000k",
+            videoBufferSize: "3000k",
+            videoScale: "-1:1080",
+            audioFrequency: 96000,
+            audioCodec: "aac",
+            audioChannels: 2,
+            audioBitrate: "384k"
+        },
+
+        /**
          * 720p video, HD Ready
          * 
          * fixed bitrate of 1500k, audio 2 channels 256k at 48KHz

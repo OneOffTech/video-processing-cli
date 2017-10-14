@@ -62,6 +62,7 @@ module.exports = function(file, path, command){
 
             if(videoStream.height >= 1080){
                 scalingSettings = [
+                    Presets.SCALE_PRESETS.V1080,
                     Presets.SCALE_PRESETS.V720,
                     Presets.SCALE_PRESETS.V540,
                     Presets.SCALE_PRESETS.V360
@@ -84,8 +85,8 @@ module.exports = function(file, path, command){
                 Log.comment(`Vertical resolution ${videoStream.height} is below 540, so no scaling preset is selected.`);
             }
             
-            // TODO: keep in mind that one scaling might fail, hence the promise will fail, but 
-            //       the ffmpeg execution of the others is still in progress and will not be tracked
+            // keep in mind that one scaling might fail, hence the promise will fail, but 
+            // the ffmpeg execution of the others is still in progress and will not be tracked
 
 
             return Promise.all(scalingSettings.map(function(v){
@@ -105,7 +106,7 @@ module.exports = function(file, path, command){
                     dashOptions.noAudio = !hasAudioStream;
 
                     // now is the packager turn
-                    return new Dash().generate([file].concat(values), mdpOutput, dashOptions)
+                    return new Dash().generate(values, mdpOutput, dashOptions)
                         .then(function(){
                             Log.success('MDP manifest generated');
                             values.forEach(function(f){

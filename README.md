@@ -247,7 +247,7 @@ The main aim of the processing pipeline is to generate a manifest for a video pl
 
 The first part of the pipeline take the video file and produce downscaled versions of it. The number of downscaled versions depends on the original resolution of the video source.
 
-In general the output are 1080p (Full HD), 720p (HD Ready), 540p and 360p for mobile with constrained bandwidth. In case the video source is not Full HD, it will not be upscaled and the maximum resolution for the video will be the original one.
+In general the output are 1080p (Full HD), 720p (HD Ready), 540p and 360p for mobile with constrained bandwidth. In case the video source is not Full HD, it will not be upscaled and the maximum resolution for the video will be the same of the closest preset, e.g. if the video has a 840px height, the final height will be 720px. The aspect ratio is respected.
 
 After the conversion the DASH playlist manifest is generated with a 3 seconds segment duration, so the player can switch the video from one resolution to the other every 3 seconds.
 

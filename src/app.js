@@ -3,7 +3,7 @@
  * A wrapper around ffmpeg (and some other tools) to produce a DASH/HLS playlist 
  * of a given video file
  * 
- * @author Alessio Vertemati (alessio@oneofftech.xyz)
+ * @author Alessio Vertemati <alessio@oneofftech.xyz>
  */
 
 'use strict';
@@ -17,14 +17,13 @@ const ThumbnailCommand = require('./commands/thumbnail');
 const ProcessCommand = require('./commands/process');
 const FetchBinariesCommand = require('./commands/fetch-binaries');
 
-program.version('0.2.0')
+program.version('0.3.0')
     .on('--help', function() {
         // add the what's new section to the --help output
         Log.comment('  What\'s new in', program.version(), ':');
         Log.comment();
-        Log.comment('   - JSON output for `details` command');
-        Log.comment('   - Fixed: Handling video with no audio stream in the dash elaboration');
-        Log.comment('   - Fixed: Handling of videos with height less then 360 pixels during dash elaboration');
+        Log.comment('   - Added 1080p preset');
+        Log.comment('   - Re-encode 1080p original videos with the 1080p preset');
         Log.comment();
     });
 
