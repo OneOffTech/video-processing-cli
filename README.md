@@ -27,7 +27,7 @@ The binaries are generated for 64 bit version of the OS
 In order to use the video-processing-cli you need
 
 - [FFMPEG](https://ffmpeg.org/) version 3.3.3 or above
-- [Shaka Packager](https://github.com/google/shaka-packager/releases) version 1.9.6 or above
+- [Shaka Packager](https://github.com/google/shaka-packager/releases) version 1.6.2 or above
 
 The binaries can be added to the shell/command line PATH or in a `bin` folder. 
 The `bin` folder must be in the same working directory where the 
