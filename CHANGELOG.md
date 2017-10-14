@@ -7,13 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.0] - 2017-10-14
+
 ## Added
 
 - 1080p video conversion preset
 
 ## Changed
 
-- Videos with height >= 1080 will now re-encoded also with the 1080p preset
+- Videos with height >= 1080 will now be re-encoded also with the 1080p preset
 - The original video is not passed anymore to the shaka packager
 
 
