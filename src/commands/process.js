@@ -79,10 +79,15 @@ module.exports = function(file, path, command){
                     Presets.SCALE_PRESETS.V360
                 ];
             }
+            else if(videoStream.height >= 360){
+                scalingSettings = [
+                    Presets.SCALE_PRESETS.V360
+                ];
+            }
             else {
                 // resolution too low, no scaling
                 scalingSettings = [];
-                Log.comment(`Vertical resolution ${videoStream.height} is below 540, so no scaling preset is selected.`);
+                Log.comment(`Vertical resolution ${videoStream.height} is below 360, so no scaling preset is selected.`);
             }
             
             // keep in mind that one scaling might fail, hence the promise will fail, but 
@@ -104,6 +109,11 @@ module.exports = function(file, path, command){
                     var dashOptions = Presets.DASH_DEFAULT;
 
                     dashOptions.noAudio = !hasAudioStream;
+
+                    if(values.length === 0){
+                        Log.warning('No files to process for dash manifest generation');
+                        throw new Error('DASH manifest cannot be generated with no video input.');
+                    }
 
                     // now is the packager turn
                     return new Dash().generate(values, mdpOutput, dashOptions)
