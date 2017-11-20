@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.1] - 2017-11-20
 ### Changed
 
 - Videos with a vertical resolution lower than 360px are not supported
