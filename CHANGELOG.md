@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Videos with a vertical resolution lower than 360px are not supported
+
+### Fixed
+
+- Processing also 360p videos to before generating DASH manifest
+
 ## [0.3.0] - 2017-10-14
 
 ## Added
