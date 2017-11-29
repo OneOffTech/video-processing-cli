@@ -6,74 +6,87 @@
  * @author Alessio Vertemati <alessio@oneofftech.xyz>
  */
 
-'use strict';
+"use strict";
 
-const program = require('commander');
-const Log = require('./helpers/log');
+const program = require("commander");
+const Log = require("./helpers/log");
 
 // commands
-const DetailsCommand = require('./commands/details');
-const ThumbnailCommand = require('./commands/thumbnail');
-const ProcessCommand = require('./commands/process');
-const FetchBinariesCommand = require('./commands/fetch-binaries');
+const DetailsCommand = require("./commands/details");
+const ThumbnailCommand = require("./commands/thumbnail");
+const ProcessCommand = require("./commands/process");
+const FetchBinariesCommand = require("./commands/fetch-binaries");
 
-program.version('0.3.0')
-    .on('--help', function() {
-        // add the what's new section to the --help output
-        Log.comment('  What\'s new in', program.version(), ':');
-        Log.comment();
-        Log.comment('   - Added 1080p preset');
-        Log.comment('   - Re-encode 1080p original videos with the 1080p preset');
-        Log.comment();
-    });
-
-program
-    .command('details <file>')
-    .alias('info')
-    .option('-j, --json', 'Output the video details in a JSON object.')
-    .description('Extract the details from the video <file>')
-    .action(DetailsCommand)
-    .on('--help', function() {
-        Log.text('  Arguments:');
-        Log.text();
-        Log.text('    <file> the video file to extract details from (required)');
-        Log.text();
-    });
+program.version("0.3.0").on("--help", function() {
+  // add the what's new section to the --help output
+  Log.comment("  What's new in", program.version(), ":");
+  Log.comment();
+  Log.comment("   - Added 1080p preset");
+  Log.comment("   - Re-encode 1080p original videos with the 1080p preset");
+  Log.comment();
+});
 
 program
-    .command('thumbnail <file> <thumbnail_path>')
-    .option('-f, --format [type]', 'The format in which the thumbnail will be saved (png|jpg) [png].', 'png')
-    .option('-o, --out [name]', 'The name of the thumbnail file. By default is the same name of the video file.')
-    .description('Generate a thumbnail (or poster image) from a video <file> into <thumbnail_path>')
-    .action(ThumbnailCommand)
-    .on('--help', function() {
-        Log.text('  Arguments:');
-        Log.text();
-        Log.text('    <file> the video file to generate the thumbnail for (required)');
-        Log.text('    <thumbnail_path> where to save the thumbnail (required)');
-        Log.text();
-    });
+  .command("details <file>")
+  .alias("info")
+  .option("-j, --json", "Output the video details in a JSON object.")
+  .description("Extract the details from the video <file>")
+  .action(DetailsCommand)
+  .on("--help", function() {
+    Log.text("  Arguments:");
+    Log.text();
+    Log.text("    <file> the video file to extract details from (required)");
+    Log.text();
+  });
 
 program
-    .command('process <file> <path>')
-    .alias('streamify')
-    .alias('stream')
-    .description('Generate a DASH/HLS manifest, with scaled video resolutions, from a video <file> into <path>')
-    .action(ProcessCommand)
-    .on('--help', function() {
-        Log.text('  Arguments:');
-        Log.text();
-        Log.text('    <file> the video file to generate the thumbnail for (required)');
-        Log.text('    <thumbnail_path> where to save the thumbnail (required)');
-        Log.text();
-    });
+  .command("thumbnail <file> <thumbnail_path>")
+  .option(
+    "-f, --format [type]",
+    "The format in which the thumbnail will be saved (png|jpg) [png].",
+    "png"
+  )
+  .option(
+    "-o, --out [name]",
+    "The name of the thumbnail file. By default is the same name of the video file."
+  )
+  .description(
+    "Generate a thumbnail (or poster image) from a video <file> into <thumbnail_path>"
+  )
+  .action(ThumbnailCommand)
+  .on("--help", function() {
+    Log.text("  Arguments:");
+    Log.text();
+    Log.text(
+      "    <file> the video file to generate the thumbnail for (required)"
+    );
+    Log.text("    <thumbnail_path> where to save the thumbnail (required)");
+    Log.text();
+  });
 
 program
-    .command('fetch:binaries')
-    .alias('fetch:dependencies')
-    .description('Download the required FFMPEG and Shaka Packager binaries')
-    .action(FetchBinariesCommand);
+  .command("process <file> <path>")
+  .alias("streamify")
+  .alias("stream")
+  .description(
+    "Generate a DASH/HLS manifest, with scaled video resolutions, from a video <file> into <path>"
+  )
+  .action(ProcessCommand)
+  .on("--help", function() {
+    Log.text("  Arguments:");
+    Log.text();
+    Log.text(
+      "    <file> the video file to generate the thumbnail for (required)"
+    );
+    Log.text("    <thumbnail_path> where to save the thumbnail (required)");
+    Log.text();
+  });
 
+program
+  .command("fetch:binaries")
+  .alias("fetch:dependencies")
+  .description("Download the required FFMPEG and Shaka Packager binaries")
+  .action(FetchBinariesCommand);
 
 program.parse(process.argv);
 

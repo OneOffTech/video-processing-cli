@@ -9,11 +9,11 @@
     "email": "alessio@oneofftech.xyz"
   },
   "engines": {
-    "node": ">=6.0"
+    "node": ">=8.0"
   },
   "dependencies": {
     "cli-color": "^1.2.0",
-    "commander": "~2.9.0",
+    "commander": "~2.11.0",
     "cross-unzip": "^0.2.1",
     "follow-redirects": "^1.2.4",
     "fs-extra": "^4.0.1",
@@ -21,15 +21,31 @@
     "win-7zip": "^0.1.1"
   },
   "devDependencies": {
-    "jest": "^20.0.1",
-    "jest-cli": "^19.0.2",
-    "pkg": "~4.2.0"
+    "eslint": "^4.10.0",
+    "eslint-config-prettier": "^2.7.0",
+    "husky": "^0.14.3",
+    "jest": "^21.2.1",
+    "jest-cli": "^21.2.1",
+    "lint-staged": "^4.3.0",
+    "pkg": "~4.2.0",
+    "prettier": "1.7.4"
   },
   "scripts": {
     "run": "node ./src/app.js",
     "production": "pkg --out-dir=dist . ",
     "test": "jest tests/*",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prettify": "prettier --write src/**/*.js",
+    "precommit": "lint-staged",
+    "eslint": "eslint src/**/*.js",
+    "eslint:fix": "eslint src/**/*.js --fix",
+    "eslint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "pkg": {
     "assets": [
@@ -37,9 +53,9 @@
       "package.json"
     ],
     "targets": [
-      "node6-macos-x64",
-      "node6-linux-x64",
-      "node6-win-x64"
+      "node8-macos-x64",
+      "node8-linux-x64",
+      "node8-win-x64"
     ]
   },
   "binaries": {

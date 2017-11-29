@@ -255,22 +255,19 @@ In the DASH playlist audio and video streams are separated.
 
 ## Development
 
-The development of the video-processing-cli is done in NodeJS. The dependencies are managed via Yarn.
+The development of the video-processing-cli is done in NodeJS. The dependencies are managed via NPM.
 
 Before adding some code pull in all the dependencies
 
 ```bash
-$ yarn
+$ npm install
 ```
-
-(You can alternatively use `npm install`)
-
 
 ### Building
 
 #### the cross platform binary
 
-Distributable binary files are generated via PKG.
+Distributable binary files are generated via [PKG](https://github.com/zeit/pkg).
 
 To generate an executable file for Windows, Linux and MacOS use
 
