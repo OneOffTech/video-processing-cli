@@ -1,11 +1,11 @@
 # Video Processing CLI
 
-A command line tool that hides the complexity of ffmpeg to produce a DASH/HLS playlist from a video source.
+A command line tool that hides the complexity of ffmpeg to produce a [Dynamic Adaptive Streaming over HTTP (DASH)](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) playlist from a video source.
 
 **features**
 
-* [x] Grab video files metadata
-* [x] Generate a thumbnail (or cover image) from a video file
+* [x] Extract video metadata
+* [x] Generate thumbnail (or cover image) from a video file
 * [x] Generate low resolution version of a video file
 * [x] Generate a DASH manifest for video streaming
 * [ ] Generate a HLS playlist for video streaming
@@ -37,8 +37,8 @@ video-processing-cli will be executed.
 
 Prebuilt binaries are available for Windows, MacOS and Linux. All binaries are for 64bit architecture.
 
-Binaries are automatically built for `master` and each tagged release. 
-[Download the latest `master` binaries](https://git.klink.asia/main/video-processing-cli/builds/artifacts/master/browse/dist?job=package)
+Binaries are automatically built for each tagged release. 
+[Download the latest `master` binaries](https://github.com/OneOffTech/video-processing-cli/releases)
 
 Alternatively a docker image is available, see [Usage via Docker](#via-docker-image).
 
@@ -47,11 +47,11 @@ Alternatively a docker image is available, see [Usage via Docker](#via-docker-im
 If you don't have already FFMPEG and Shaka Packager on your system, you can run
 
 ```bash
-$ video-processing-cli-linux fetch:binaries
+$ video-processing-cli fetch:binaries
 ```
 
-This will download the standalone, statically linked, binaries for the requirements. The downloaded version is based on 
-your Operating System and architecture (32 or 64 bit).
+This will download the standalone, statically linked, binaries. 
+The downloaded version is based on your Operating System and architecture (32 or 64 bit).
 
 > A note for **MacOS** users: we currently don't support the automated download of FFMPEG. Pull requests are accepted.
 
@@ -59,10 +59,10 @@ your Operating System and architecture (32 or 64 bit).
 
 #### via Executable file
 
-Once grabbed the binary file, you can run it on the shell/command prompt
+Once grabbed the binary file, and saved as `video-processing-cli`, you can run it on the shell/command prompt
 
 ```bash
-$ video-processing-cli-linux <command>
+$ video-processing-cli <command>
 ```
 
 where `<command>` is one of the [available commands](#available-commands).
@@ -70,14 +70,14 @@ where `<command>` is one of the [available commands](#available-commands).
 To get the help message with all the available commands, use
 
 ```bash
-$ video-processing-cli-linux --help
+$ video-processing-cli --help
 ```
 
 If you already know the `<command>`, but not its parameters you could use
 
 ```bash
-$ video-processing-cli-linux <command> --help
-# e.g. video-processing-cli-linux details --help
+$ video-processing-cli <command> --help
+# e.g. video-processing-cli details --help
 ```
 
 and the list of available arguments and options for the specified command will be listed
