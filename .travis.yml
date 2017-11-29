@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+  - '8'
+
+notifications:
+  email:
+    on_success: never
+
+
+install:
+  - travis_retry npm install
+
+script:
+  - npm run test
+
+before_deploy: npm run production
+
+deploy:
+  provider: releases
+  api_key: "${GITHUB_OAUTH}"
+  file: 
+    - "dist/video-processing-cli-linux"
+    - "dist/video-processing-cli-macos"
+    - "dist/video-processing-cli-win.exe"
+  skip_cleanup: true
+  on:
+    tags: true
