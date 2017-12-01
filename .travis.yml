@@ -1,26 +1,21 @@
 language: node_js
 node_js:
-  - '8'
-
+- '8'
 notifications:
   email:
     on_success: never
-
 install:
-  - travis_retry npm install
-
+- travis_retry npm install
 script:
-  - npm run test
-
+- npm run test
 before_deploy: npm run production
 deploy:
   provider: releases
   api_key:
-    secure: "${RELEASE_TOKEN}"
+    secure: MFLa3zt6esC4P3LruRwdpoP47Cjbpw+4T95iAxGAOQmT3VEh0qgVQCt1GE6naP6EUaBR8Vb5XTjcDvGqVr+fHw3C44bxzGWmzdTyZbfpk+TYLoiBziLB2y1dtNAFvTcYw48ty+xvwdamRILSxEMeeOKRr0jajTlk/RdNAa/7dMDT5IsOOrYa2QSxM0LV8CE8gEF5a0Fxo+5L9LgLwh5WK+xd2SBbZzITNO8E6m5ls4jKuAQkzHNF5MB17DfIcPZCLw3xPWCx+NzWvbXK78ODFDYeyjFGkLvOGSJUYLAEB1InHfEodLMEOv9KfYj+i0Mt+43Pde8VCLNzPdDxWwMLYsO4+xfsaCAxDwUa6MndMFvQYhaq7jlEHTXRVk0OOIi23Y3uGcoURnsIIfKVeij4tgJzGbnm0KfO/fbVR3CrebRsFrACZN/0zxQumWnM5q8EPlgmrVC3AS0U6VvlK4zubrlk5mAt9K2pStB2mymy3JYwd9u28c3+5ER4Mby/c4kEw7rrpciUAlhK6pOQJW+qiAnHXqD50a2CfSenRc0FYOgiI9Lb15eUw1w3ssz9lXF4a7Rc3JGoGP7QPQ4em5JcykLkSdDbvxxFtX0QZDuHQd5h8nh84QVEpIu7siPHCLTBD7pGph0viM4hz9KoHx5x1gQIpMSIUHuN0JQnpjXKxak=
   file: 
     - "dist/video-processing-cli-linux"
     - "dist/video-processing-cli-macos"
     - "dist/video-processing-cli-win.exe"
-  skip_cleanup: true
   on:
-    tags: true
+    repo: OneOffTech/video-processing-cli
