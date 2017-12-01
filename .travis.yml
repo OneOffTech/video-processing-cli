@@ -17,5 +17,7 @@ deploy:
     - "dist/video-processing-cli-linux"
     - "dist/video-processing-cli-macos"
     - "dist/video-processing-cli-win.exe"
+  skip_cleanup: true
   on:
     repo: OneOffTech/video-processing-cli
+    tags: true
