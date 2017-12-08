@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- License from AGPL to MIT
+
 ## [0.3.1] - 2017-11-20
 ### Changed
 

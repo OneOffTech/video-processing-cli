@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/OneOffTech/video-processing-cli.svg?branch=master)](https://travis-ci.org/OneOffTech/video-processing-cli)
+
 # Video Processing CLI
 
 A command line tool that hides the complexity of ffmpeg to produce a [Dynamic Adaptive Streaming over HTTP (DASH)](https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP) playlist from a video source.
@@ -317,7 +319,7 @@ The contribution guide is not available yet, but in the meantime you can still s
 
 ## License
 
-This project is licensed under the AGPL v3 license, see [LICENSE.txt](./LICENSE.txt).
+This project is licensed under the MIT license, see [LICENSE.txt](./LICENSE.txt).
 
 ## Credits
 
