@@ -17,12 +17,13 @@ const ThumbnailCommand = require("./commands/thumbnail");
 const ProcessCommand = require("./commands/process");
 const FetchBinariesCommand = require("./commands/fetch-binaries");
 
-program.version("0.3.0").on("--help", function() {
+program.version("0.4.0").on("--help", function() {
   // add the what's new section to the --help output
-  Log.comment("  What's new in", program.version(), ":");
   Log.comment();
-  Log.comment("   - Added 1080p preset");
-  Log.comment("   - Re-encode 1080p original videos with the 1080p preset");
+  Log.comment("  What's new in", program.version());
+  Log.comment();
+  Log.comment("   - Node 8");
+  Log.comment("   - License changed to MIT");
   Log.comment();
 });
 
