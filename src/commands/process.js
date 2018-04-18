@@ -31,7 +31,7 @@ module.exports = function(file, path, command) {
     // if video is Full HD, use all presets
     // if video is 720 use only 540p and 360p... and so on
     // grab the video resolution before and then enqueue the
-    // various scale options based on the video resolutio (only downscale)
+    // various scale options based on the video resolution (only downscale)
 
     return probe
       .then(function(details) {
