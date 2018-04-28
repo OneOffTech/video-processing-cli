@@ -25,6 +25,10 @@ module.exports = function() {
     generate: function(files, mdpOutput, options) {
       var packager_options = [];
 
+      if (!Array.isArray(files)) {
+        files = [files];
+      }
+
       files.forEach(function(file) {
         var filename = Path.join(
           Path.dirname(file),
