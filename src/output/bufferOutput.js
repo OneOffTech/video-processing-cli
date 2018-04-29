@@ -1,21 +1,21 @@
 "use strict";
 
-let stdOut = [];
-let stdErr = [];
+const stdOut = [];
+const stdErr = [];
 
 /**
  * Output to buffer for further inspection
  * 
  */
 module.exports = {
-  comment: function() {
-    var args = Array.from(arguments);
+  comment: function(...inputs) {
+    var args = Array.from(inputs);
 
     stdOut.push(args.join(" "));
   },
 
-  warning: function() {
-    var args = Array.from(arguments);
+  warning: function(...inputs) {
+    var args = Array.from(inputs);
 
     stdErr.push(args.join(" "));
   },
@@ -23,8 +23,8 @@ module.exports = {
   /**
          * ...
          */
-  info: function() {
-    var args = Array.from(arguments);
+  info: function(...inputs) {
+    var args = Array.from(inputs);
 
     stdOut.push(args.join(" "));
   },
@@ -32,8 +32,8 @@ module.exports = {
   /**
          * ...
          */
-  text: function() {
-    var args = Array.from(arguments);
+  text: function(...inputs) {
+    var args = Array.from(inputs);
 
     stdOut.push(args.join(" "));
   },
@@ -41,8 +41,8 @@ module.exports = {
   /**
          * ...
          */
-  error: function() {
-    var args = Array.from(arguments);
+  error: function(...inputs) {
+    var args = Array.from(inputs);
 
     stdErr.push(args.join(" "));
   },
@@ -50,8 +50,8 @@ module.exports = {
   /**
          * ...
          */
-  success: function() {
-    var args = Array.from(arguments);
+  success: function(...inputs) {
+    var args = Array.from(inputs);
 
     stdOut.push(args.join(" "));
   },

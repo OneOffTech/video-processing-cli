@@ -13,8 +13,8 @@ module.exports = {
   /**
      * ...
      */
-  comment: function() {
-    var args = Array.from(arguments);
+  comment: function(...inputs) {
+    var args = Array.from(inputs);
 
     var txt = args.map(function(el) {
       return clc.yellowBright(el);
@@ -23,8 +23,8 @@ module.exports = {
     console.log(txt.join(" "));
   },
 
-  warning: function() {
-    var args = Array.from(arguments);
+  warning: function(...inputs) {
+    var args = Array.from(inputs);
 
     var txt = args.map(function(el) {
       return clc.yellowBright(el);
@@ -36,8 +36,8 @@ module.exports = {
   /**
      * ...
      */
-  info: function() {
-    var args = Array.from(arguments);
+  info: function(...inputs) {
+    var args = Array.from(inputs);
 
     console.log(args.join(" "));
   },
@@ -45,8 +45,8 @@ module.exports = {
   /**
      * ...
      */
-  text: function() {
-    var args = Array.from(arguments);
+  text: function(...inputs) {
+    var args = Array.from(inputs);
 
     console.log(args.join(" "));
   },
@@ -54,8 +54,8 @@ module.exports = {
   /**
      * ...
      */
-  error: function() {
-    var args = Array.from(arguments);
+  error: function(...inputs) {
+    var args = Array.from(inputs);
 
     var txt = args.map(function(el) {
       return clc.red(el);
@@ -67,8 +67,8 @@ module.exports = {
   /**
      * ...
      */
-  success: function() {
-    var args = Array.from(arguments);
+  success: function(...inputs) {
+    var args = Array.from(inputs);
 
     var txt = args.map(function(el) {
       return clc.green(el);

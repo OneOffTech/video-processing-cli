@@ -1,4 +1,5 @@
 "use strict";
+/* eslint no-empty-function: "off" */
 
 /**
  * Log module

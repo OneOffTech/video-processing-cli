@@ -4,7 +4,6 @@
 const Executables = require("./executables");
 const exec = require("child_process").exec;
 const Path = require("path");
-const Log = require("../helpers/log.js");
 
 /**
  * Shaka Packager for DASH files.
@@ -22,12 +21,10 @@ module.exports = function() {
      * @param {Object} options customize the thumbnail generation. The only supported option is `time`, which specifies the timstamp of the frame to use for the thumbnail
      * @return {Promise}
      */
-    generate: function(files, mpdOutput, options) {
+    generate: function(inputFiles, mpdOutput, options) {
       var packager_options = [];
 
-      if (!Array.isArray(files)) {
-        files = [files];
-      }
+      var files = !Array.isArray(inputFiles) ? [inputFiles] : inputFiles;
 
       files.forEach(function(file) {
         var filename = Path.join(

@@ -116,7 +116,7 @@ module.exports = function(file, options) {
       });
 
       return future
-        .finally(function finalize() {
+        .finally(function() {
           if (ffmpeg.connected) {
             ffmpeg.kill();
           }
