@@ -117,6 +117,7 @@ docker run --rm -v "./source:/video-processing-cli/videos" \
 - [`thumbnail`](#thumbnail)
 - [`process`](#process)
 - [`fetch:binaries`](#fetchbinaries)
+- [`transcode`](#transcode)
 
 ### `details` (or `info`)
 
@@ -241,6 +242,38 @@ In case of processing error a message will be written on standard error.
 
 ```bash
 $ video-processing-cli fetch:binaries
+```
+### `transcode`
+
+Transcode a video to a different format/resolution according to the selected preset. 
+
+The original video file will not be touched or moved.
+
+```bash
+transcode [--preset auto] <file> [output_path]
+```
+
+**Arguments**
+
+- `file` the video file path
+- `output_path` the existing folder in which the transcoded video will be saved
+
+**Options**
+
+- `-p, --preset [name]` the [preset](./src/helpers/presets.js) to use, default `auto`
+
+**Output**
+
+The output is a video file, whose name is the same of the original video suffixed with the name of the preset, e.g. `./videos/video-720.mp4`.
+
+**Errors**
+
+In case of processing error a message will be written on standard error. 
+
+**Example**
+
+```bash
+$ video-processing-cli transcode -p V720 ./videos/video.mp4 ./videos/
 ```
 
 ## Video Processing
