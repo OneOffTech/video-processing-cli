@@ -109,7 +109,7 @@ module.exports = {
     },
 
     exists: function(key) {
-      return this[key];
+      return this[key] !== undefined;
     }
   },
 
