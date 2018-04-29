@@ -117,7 +117,7 @@ program
     "auto"
   )
   .description("Transcode a video according to the specified preset")
-  .action(EncodeCommand)
+  .action(Command.wrap(EncodeCommand))
   .on("--help", function() {
     Log.text("  Arguments:");
     Log.text();
