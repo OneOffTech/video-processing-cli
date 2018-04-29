@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.4.0] - 2018-01-22
+
 ### Changed
 
 - License from AGPL to MIT
 - Move to Node 8
 
 ## [0.3.1] - 2017-11-20
+
 ### Changed
 
 - Videos with a vertical resolution lower than 360px are not supported
