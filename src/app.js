@@ -9,12 +9,14 @@
 "use strict";
 
 const program = require("commander");
-const Log = require("./helpers/log");
+const Log = require("./output/consoleOutput");
 
 // commands
+const Command = require("./commands/command");
 const DetailsCommand = require("./commands/details");
 const ThumbnailCommand = require("./commands/thumbnail");
 const ProcessCommand = require("./commands/process");
+const EncodeCommand = require("./commands/encode");
 const FetchBinariesCommand = require("./commands/fetch-binaries");
 
 program.version("0.4.0").on("--help", function() {
@@ -32,7 +34,7 @@ program
   .alias("info")
   .option("-j, --json", "Output the video details in a JSON object.")
   .description("Extract the details from the video <file>")
-  .action(DetailsCommand)
+  .action(Command.wrap(DetailsCommand))
   .on("--help", function() {
     Log.text("  Arguments:");
     Log.text();
@@ -54,7 +56,7 @@ program
   .description(
     "Generate a thumbnail (or poster image) from a video <file> into <thumbnail_path>"
   )
-  .action(ThumbnailCommand)
+  .action(Command.wrap(ThumbnailCommand))
   .on("--help", function() {
     Log.text("  Arguments:");
     Log.text();
@@ -72,7 +74,50 @@ program
   .description(
     "Generate a DASH/HLS manifest, with scaled video resolutions, from a video <file> into <path>"
   )
-  .action(ProcessCommand)
+  .action(Command.wrap(ProcessCommand))
+  .on("--help", function() {
+    Log.text("  Arguments:");
+    Log.text();
+    Log.text(
+      "    <file> the video file to generate the thumbnail for (required)"
+    );
+    Log.text("    <thumbnail_path> where to save the thumbnail (required)");
+    Log.text();
+  });
+
+program
+  .command("command <file> [path]")
+  .option(
+    "-p, --preset [names]",
+    "The presets to use for encoding (V1080|V720|V540|V480|V360|auto) [auto].",
+    "auto"
+  )
+  .description("Transcode a video according to the specified preset")
+  .action(
+    Command.wrap(function(...args) {
+      console.log("Wrapper command", args);
+    })
+  )
+  .on("--help", function() {
+    Log.text("  Arguments:");
+    Log.text();
+    Log.text(
+      "    <file> the video file to generate the thumbnail for (required)"
+    );
+    Log.text("    <thumbnail_path> where to save the thumbnail (required)");
+    Log.text();
+  });
+
+program
+  .command("encode <file> [path]")
+  .alias("transcode")
+  .option(
+    "-p, --preset [names]",
+    "The presets to use for encoding (V1080|V720|V540|V480|V360|auto) [auto].",
+    "auto"
+  )
+  .description("Transcode a video according to the specified preset")
+  .action(EncodeCommand)
   .on("--help", function() {
     Log.text("  Arguments:");
     Log.text();
@@ -86,6 +131,7 @@ program
 program
   .command("fetch:binaries")
   .alias("fetch:dependencies")
+  .alias("install")
   .description("Download the required FFMPEG and Shaka Packager binaries")
   .action(FetchBinariesCommand);
 
@@ -93,3 +139,15 @@ program.parse(process.argv);
 
 // output the help if no command is specified
 if (!program.args.length) program.help();
+
+// process.on('SIGINT', () => {
+//   console.log('Received SIGINT. Press Control-D to exit.');
+// });
+
+// // Using a single function to handle multiple signals
+// function handle(signal) {
+//   console.log(`Received ${signal}`);
+// }
+
+// process.on('SIGINT', handle);
+// process.on('SIGTERM', handle);

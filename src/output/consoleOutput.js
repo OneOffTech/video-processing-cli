@@ -7,7 +7,6 @@ const clc = require("cli-color");
  * Log module
  * 
  * For a coherent output.
- * @deprecated use ../output/consoleOutput
  */
 module.exports = {
   /**

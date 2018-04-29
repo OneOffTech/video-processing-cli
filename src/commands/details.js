@@ -1,41 +1,43 @@
 "use strict";
 
-const Log = require("../helpers/log.js");
 const DetailsExtractor = require("../helpers/details.js");
 
 /**
  * Get the metadata of a video file
  * 
- * @param {string} file the video file to inspect
- * @param {Object} command the command being executed (e.g. to get options)
+ * @param {Object} input the inputs of the command
+ * @param {String} input.arguments.file the file to extract the metadata
+ * @param {Boolean} input.options.json if to output a JSON serialized object
+ * @param {Object} output the command being executed (e.g. to get options)
  * @return {Promise}
  */
-module.exports = async function(file, command) {
-  var jsonOutput = command.json || false;
+module.exports = async function(input, output) {
+  var file = input.arguments.file;
+  var jsonOutput = input.options.json || false;
 
   try {
     var details = await DetailsExtractor.get(file);
 
     if (!jsonOutput) {
-      Log.success(details.format.filename, "details");
+      output.success(details.format.filename, "details");
 
-      Log.info(
+      output.info(
         details.format.format_long_name,
         "(" + details.format.format_name + ")"
       );
-      Log.info("duration", details.format.duration);
-      Log.info("size", details.format.size);
-      Log.info("bitrate", details.format.bit_rate);
+      output.info("duration", details.format.duration);
+      output.info("size", details.format.size);
+      output.info("bitrate", details.format.bit_rate);
 
       details.streams.forEach(function(value) {
         if (value.codec_type === "video") {
-          Log.info(
+          output.info(
             value.codec_type,
             value.codec_name,
             value.width + "x" + value.height
           );
         } else if (value.codec_type === "audio") {
-          Log.info(value.codec_type, value.codec_name, value.sample_rate);
+          output.info(value.codec_type, value.codec_name, value.sample_rate);
         }
       });
     } else {
@@ -56,7 +58,7 @@ module.exports = async function(file, command) {
         }
       });
 
-      Log.info(
+      output.info(
         JSON.stringify({
           format: details.format.format_name,
           format_long: details.format.format_long_name,
@@ -68,7 +70,7 @@ module.exports = async function(file, command) {
       );
     }
   } catch (error) {
-    Log.error(`Not able to retrieve details from ${file}`);
-    Log.error(error.message);
+    output.error(`Not able to retrieve details from ${file}`);
+    output.error(error.message);
   }
 };
