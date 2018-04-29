@@ -1,7 +1,7 @@
 ## Multi-staged build of the video-processing-cli Docker image 
 
 ## Building the Video Processing CLI binary
-FROM node:6
+FROM node:8
 
 WORKDIR /app
 
@@ -32,7 +32,7 @@ COPY --from=0 /app/dist/video-processing-cli-linux ./video-processing-cli
 RUN mkdir ./bin \
     && apt-get -yqq update && apt-get install -y xz-utils \
     && chmod +x ./video-processing-cli \
-    && ./video-processing-cli fetch:binaries \
+    && ./video-processing-cli install \
     && apt-get remove -y xz-utils \
     && apt-get autoremove -y \
     && apt-get clean -y \
