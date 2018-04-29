@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `transcode` command to transcode a video to a different format/resolution according to the selected preset.
+- `pack` command to create a DASH manifest from video files
+
+### Changed
+
+- FFMPEG is always invoked with `-threads 1` to limit the CPU usage
+
+### Deprecated
+
+- `process` command. The command can potentially use all system resources. The commands `transcode` and `pack` split the actions performed by `process` enabling the developer to better control the system resources
+- `log.js` helper, use `src/output/consoleOutput.js` instead
+
 ## [0.4.0] - 2018-01-22
 
 ### Changed
