@@ -118,6 +118,7 @@ docker run --rm -v "./source:/video-processing-cli/videos" \
 - [`process`](#process)
 - [`fetch:binaries`](#fetchbinaries)
 - [`transcode`](#transcode)
+- [`pack`](#pack)
 
 ### `details` (or `info`)
 
