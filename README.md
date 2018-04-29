@@ -214,7 +214,7 @@ process <file> <output_path>
 
 **Output**
 
-The output is a set of video files whose name is the same of the original video, but suffixed with the frame height and a `mdp` file named the same as the source video.
+The output is a set of video files whose name is the same of the original video, but suffixed with the frame height and a `mpd` file named the same as the source video.
 
 **Errors**
 
@@ -274,6 +274,39 @@ In case of processing error a message will be written on standard error.
 
 ```bash
 $ video-processing-cli transcode -p V720 ./videos/video.mp4 ./videos/
+```
+
+### `pack`
+
+Pack different video resolutions into a DASH playlist for streaming.
+
+
+```bash
+pack [--name mpd_name] [--out folder] <files>
+```
+
+**Arguments**
+
+- `files` the video files to use for playback
+
+**Options**
+
+- `-o, --out [path]` the folder in which the playlist and elaborated videos should be saved
+- `-n, --name [name]` the name to use for the MPD playlist file
+
+**Output**
+
+The output is a MPD file, followed by a variant numbers of mp4 files containing the splitted video and audio tracks, that are referenced for streaming.
+The original video files will not be touched or moved.
+
+**Errors**
+
+In case of processing error a message will be written on standard error. 
+
+**Example**
+
+```bash
+$ video-processing-cli pack --name video ./videos/video-360.mp4 ./videos/video-540.mp4
 ```
 
 ## Video Processing

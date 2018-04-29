@@ -14,7 +14,7 @@ const fs = require("fs");
  * @param {string} input.arguments.file the video file
  * @param {string} input.arguments.path the location where the outputs will be saved
  * @return {Promise}
- * @deprecated Deprecated in favor of the more controllable encode plus dash chain
+ * @deprecated Deprecated in favor of the more controllable transcode plus pack chain
  */
 module.exports = function(input, output) {
   try {
@@ -87,7 +87,7 @@ module.exports = function(input, output) {
 
         output.info("Generating DASH manifest");
 
-        var mdpOutput = Path.join(
+        var mpdOutput = Path.join(
           path,
           Path.basename(file, Path.extname(file))
         );
@@ -105,9 +105,9 @@ module.exports = function(input, output) {
 
         // now is the packager turn
         return new Dash()
-          .generate(values, mdpOutput, dashOptions)
+          .generate(values, mpdOutput, dashOptions)
           .then(function() {
-            output.success("MDP manifest generated");
+            output.success("mpd manifest generated");
             values.forEach(function(f) {
               fs.unlinkSync(f);
             });

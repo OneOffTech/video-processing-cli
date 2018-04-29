@@ -12,7 +12,7 @@ module.exports = {
    * @param {Function} command
    */
   wrap: function(command) {
-    return function(...arguments) {
+    return async function(...arguments) {
       try {
         var originalCommand = arguments[arguments.length - 1];
         var commandArguments = arguments.slice(0, arguments.length - 1);
