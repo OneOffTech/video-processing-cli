@@ -1,6 +1,7 @@
 const Command = require("../src/commands/details.js");
 const Helper = require("../src/helpers/details.js");
 const NullOutput = require("../src/output/nullOutput.js");
+const path = require("path");
 
 var cwd = process.cwd().match(/tests/)
   ? path.dirname(process.cwd())
