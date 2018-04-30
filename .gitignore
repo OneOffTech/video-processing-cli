@@ -5,3 +5,4 @@ npm-debug.log
 videos/*_audio*
 videos/*_video*
 videos/*mpd
+.vscode

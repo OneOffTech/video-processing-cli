@@ -21,6 +21,7 @@ test:
     - npm config set cache .npm-cache
     - npm install -q
   script:
+   - npm run run install
    - npm run test
   tags:
     - docker
@@ -45,7 +46,6 @@ package:
 package_docker:
   stage: build
   script:
-   - docker --version
    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
    - docker build -t $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/} .
    - docker push $CI_REGISTRY_IMAGE:${CI_BUILD_REF_NAME/v/}

@@ -1,4 +1,4 @@
-const Process = require("../src/commands/process.js");
+const Command = require("../src/commands/encode.js");
 const NullOutput = require("../src/output/nullOutput.js");
 const path = require("path");
 
@@ -16,12 +16,27 @@ beforeEach(() => {
   });
 });
 
-test("process generates dash manifest from video", () => {
+test("command transcode video using explicit preset", () => {
+  var file = "./videos/video-540.mp4";
+  var path = "./videos";
+
+  expect(() => {
+    Command(
+      {
+        arguments: { file: file, path: path },
+        options: { preset: "V360" }
+      },
+      NullOutput
+    );
+  }).not.toThrow();
+});
+
+test("command transcode video using auto preset", () => {
   var file = "./videos/video-360.mp4";
   var path = "./videos";
 
   expect(() => {
-    Process(
+    Command(
       {
         arguments: { file: file, path: path },
         options: {}
@@ -31,17 +46,20 @@ test("process generates dash manifest from video", () => {
   }).not.toThrow();
 });
 
-test("process generates dash manifest from video without audio", () => {
-  var file = "./videos/video-without-audio.mp4";
+test("command throws if invalid preset is used", async () => {
+  var file = "./videos/video-360.mp4";
   var path = "./videos";
 
-  expect(() => {
-    Process(
+  expect.assertions(1);
+  try {
+    await Command(
       {
         arguments: { file: file, path: path },
-        options: {}
+        options: { preset: "11111" }
       },
       NullOutput
     );
-  }).not.toThrow();
+  } catch (e) {
+    expect(e.message).toMatch(/preset/);
+  }
 });

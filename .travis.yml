@@ -7,6 +7,7 @@ notifications:
 install:
 - travis_retry npm install
 script:
+- npm run run install
 - npm run test
 before_deploy: npm run production
 deploy:

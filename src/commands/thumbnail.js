@@ -1,25 +1,28 @@
 "use strict";
-/* eslint no-unused-vars: "warn" */
 
-const Log = require("../helpers/log.js");
 const Ffmpeg = require("../helpers/ffmpeg.js");
 const Path = require("path");
 
 /**
  * Generate a thumbnail (or poster image) of a video file
  * 
- * @param {string} file the video file
- * @param {string} path the location where the thumbnail file will be saved
+ * @param {string} input.arguments.file the video file
+ * @param {string} input.arguments.path the location where the thumbnail file will be saved
+ * @param {*} input.options.out
+ * @param {*} input.options.format
  * @param {Object} command the command being executed (e.g. to get options)
  * @return {Promise}
  */
-module.exports = function(file, path, command) {
+module.exports = function(input, output) {
   try {
     // file output path and format
+    var file = input.arguments.file;
+    var path = input.arguments.path;
 
+    var format = input.options.format || Path.extname(outname);
     var outname =
-      command.out || Path.basename(file, Path.extname(file)) + ".png";
-    var format = command.format || Path.extname(outname);
+      input.options.out ||
+      Path.basename(file, Path.extname(file)) + `.${format}`;
 
     if (
       format !== "png" &&
@@ -47,14 +50,14 @@ module.exports = function(file, path, command) {
     return new Ffmpeg(file)
       .thumbnail(outfile)
       .then(function(output) {
-        Log.success("Thumbnail saved in", outfile);
+        output.success("Thumbnail saved in", outfile);
       })
       .catch(function(err) {
-        Log.error(`Not able to generate the thumbnail of ${file}`);
-        Log.error(err.message);
+        output.error(`Not able to generate the thumbnail of ${file}`);
+        output.error(err.message);
       });
   } catch (error) {
-    Log.error(error.message);
-    process.exit(1);
+    output.error(error.message);
+    throw error;
   }
 };

@@ -1,10 +1,9 @@
 "use strict";
 /* eslint no-unused-vars: "warn", block-scoped-var: "warn" */
 
-const Log = require("../helpers/log.js");
 const Ffmpeg = require("../helpers/ffmpeg.js");
 const Dash = require("../helpers/dash.js");
-const Ffprobe = require("../helpers/ffprobe.js");
+const Details = require("../helpers/details.js");
 const Presets = require("../helpers/presets.js");
 const Path = require("path");
 const fs = require("fs");
@@ -12,117 +11,113 @@ const fs = require("fs");
 /**
  * Generate DASH/HLS manifest for streaming a video file
  * 
- * @param {string} file the video file
- * @param {string} path the location where the outputs will be saved
- * @param {Object} command the command being executed (e.g. to get options)
+ * @param {string} input.arguments.file the video file
+ * @param {string} input.arguments.path the location where the outputs will be saved
  * @return {Promise}
+ * @deprecated Deprecated in favor of the more controllable transcode plus pack chain
  */
-module.exports = function(file, path, command) {
+module.exports = function(input, output) {
   try {
     // file output path and format
+    var file = input.arguments.file;
+    var path = input.arguments.path;
 
     var outname = Path.basename(file, Path.extname(file)) + "-%resolution%.mp4";
 
     var outfile = Path.join(path, outname);
 
-    var process = new Ffmpeg(file);
-    var probe = new Ffprobe(file);
+    var ffmpegProcess = new Ffmpeg(file);
+    var details = Details.get(file);
 
+    output.comment("Grabbed video source details. Start scaling down");
+
+    var videoStream = null;
+    var hasAudioStream = false;
+
+    details.streams.forEach(function(s) {
+      if (s.codec_type === "video" && !videoStream) {
+        videoStream = s;
+      }
+      if (s.codec_type === "audio" && !hasAudioStream) {
+        hasAudioStream = true;
+      }
+    });
+
+    if (videoStream === null) {
+      throw new Error("No video stream found");
+    }
+
+    var scalingSettings = null;
+
+    if (videoStream.height >= 1080) {
+      scalingSettings = [
+        Presets.SCALE_PRESETS.V1080,
+        Presets.SCALE_PRESETS.V720,
+        Presets.SCALE_PRESETS.V540,
+        Presets.SCALE_PRESETS.V360
+      ];
+    } else if (videoStream.height >= 720) {
+      scalingSettings = [
+        Presets.SCALE_PRESETS.V540,
+        Presets.SCALE_PRESETS.V360
+      ];
+    } else if (videoStream.height >= 540) {
+      scalingSettings = [Presets.SCALE_PRESETS.V360];
+    } else if (videoStream.height >= 360) {
+      scalingSettings = [Presets.SCALE_PRESETS.V360];
+    } else {
+      // resolution too low, no scaling
+      scalingSettings = [];
+      output.comment(
+        `Vertical resolution ${videoStream.height} is below 360, so no scaling preset is selected.`
+      );
+    }
     // if video is Full HD, use all presets
     // if video is 720 use only 540p and 360p... and so on
     // grab the video resolution before and then enqueue the
-    // various scale options based on the video resolutio (only downscale)
+    // various scale options based on the video resolution (only downscale)
 
-    return probe
-      .then(function(details) {
-        Log.comment("Grabbed video source details. Start scaling down");
+    return Promise.all(
+      scalingSettings.map(function(v) {
+        return ffmpegProcess.scale(outfile, v);
+      })
+    )
+      .then(function(values) {
+        output.success("Scaling of video completed", values.join(", "));
 
-        var videoStream = null;
-        var hasAudioStream = false;
+        output.info("Generating DASH manifest");
 
-        details.streams.forEach(function(s) {
-          if (s.codec_type === "video" && !videoStream) {
-            videoStream = s;
-          }
-          if (s.codec_type === "audio" && !hasAudioStream) {
-            hasAudioStream = true;
-          }
-        });
+        var mpdOutput = Path.join(
+          path,
+          Path.basename(file, Path.extname(file))
+        );
 
-        if (videoStream === null) {
-          throw new Error("No video stream found");
-        }
+        var dashOptions = Presets.DASH_DEFAULT;
 
-        var scalingSettings = null;
+        dashOptions.noAudio = !hasAudioStream;
 
-        if (videoStream.height >= 1080) {
-          scalingSettings = [
-            Presets.SCALE_PRESETS.V1080,
-            Presets.SCALE_PRESETS.V720,
-            Presets.SCALE_PRESETS.V540,
-            Presets.SCALE_PRESETS.V360
-          ];
-        } else if (videoStream.height >= 720) {
-          scalingSettings = [
-            Presets.SCALE_PRESETS.V540,
-            Presets.SCALE_PRESETS.V360
-          ];
-        } else if (videoStream.height >= 540) {
-          scalingSettings = [Presets.SCALE_PRESETS.V360];
-        } else if (videoStream.height >= 360) {
-          scalingSettings = [Presets.SCALE_PRESETS.V360];
-        } else {
-          // resolution too low, no scaling
-          scalingSettings = [];
-          Log.comment(
-            `Vertical resolution ${videoStream.height} is below 360, so no scaling preset is selected.`
+        if (values.length === 0) {
+          output.warning("No files to process for dash manifest generation");
+          throw new Error(
+            "DASH manifest cannot be generated with no video input."
           );
         }
 
-        // keep in mind that one scaling might fail, hence the promise will fail, but
-        // the ffmpeg execution of the others is still in progress and will not be tracked
-
-        return Promise.all(
-          scalingSettings.map(function(v) {
-            return process.scale(outfile, v);
-          })
-        ).then(function(values) {
-          Log.success("Scaling of video completed", values.join(", "));
-
-          Log.info("Generating DASH manifest");
-
-          var mdpOutput = Path.join(
-            path,
-            Path.basename(file, Path.extname(file))
-          );
-
-          var dashOptions = Presets.DASH_DEFAULT;
-
-          dashOptions.noAudio = !hasAudioStream;
-
-          if (values.length === 0) {
-            Log.warning("No files to process for dash manifest generation");
-            throw new Error(
-              "DASH manifest cannot be generated with no video input."
-            );
-          }
-
-          // now is the packager turn
-          return new Dash()
-            .generate(values, mdpOutput, dashOptions)
-            .then(function() {
-              Log.success("MDP manifest generated");
-              values.forEach(function(f) {
-                fs.unlinkSync(f);
-              });
+        // now is the packager turn
+        return new Dash()
+          .generate(values, mpdOutput, dashOptions)
+          .then(function() {
+            output.success("mpd manifest generated");
+            values.forEach(function(f) {
+              fs.unlinkSync(f);
             });
-        });
+          });
       })
       .catch(function(err) {
-        Log.error(`Not able to process ${file}`, err.message);
+        output.error(`Not able to process ${file}`, err.message);
       });
   } catch (error) {
-    Log.error(error.message);
-    process.exit(1);
+    output.error(error.message);
+    // process.exit(1);
   }
 };

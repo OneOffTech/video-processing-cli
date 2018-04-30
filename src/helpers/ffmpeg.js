@@ -4,14 +4,23 @@
 const Executables = require("./executables");
 const exec = require("child_process").exec;
 const fs = require("fs");
+const Future = require("posterus");
+const os = require("os");
 
 /**
  * FFMPEG.
  * 
  * Wrapper around ffmpeg binary to process a video
  */
-module.exports = function(file) {
-  var default_options = ["-i " + file];
+module.exports = function(file, options) {
+  var default_options = [
+    "-hide_banner", // do not output ffmpeg welcome banner
+    "-nostats", // reduce the output when processing a video
+    "-threads 1", // let ffmpeg automatically manage the cpu usage
+    "-i " + file,
+    "-y" // Overwrite output files without asking.
+    // "-n", // Do not overwrite output files, and exit immediately if a specified output file already exists.
+  ];
 
   if (!fs.existsSync(file)) {
     throw new Error(`File ${file} don't exists`);
@@ -33,8 +42,7 @@ module.exports = function(file) {
         // otherwise let ffmpeg try to find the most representative frame
         // https://superuser.com/questions/538112/meaningful-thumbnails-for-a-video-using-ffmpeg
         options && options.time ? "-ss " + options.time : '-vf  "thumbnail"',
-        "-vframes 1",
-        "-y"
+        "-vframes 1"
       ];
 
       var command =
@@ -76,7 +84,6 @@ module.exports = function(file) {
       // -ab (o -b:a) is still obscure
 
       var scaleOptions = [
-        "-y",
         "-c:a " + options.audioCodec,
         "-ac " + options.audioChannels,
         "-ab " + options.audioBitrate,
@@ -96,30 +103,38 @@ module.exports = function(file) {
         '" ' +
         default_options.concat(scaleOptions, '"' + outputfile + '"').join(" ");
 
-      return new Promise(function(resolve, reject) {
-        // using exec as the size of the output buffer should not be a problem for memory comsumption
-        var ffmpeg = exec(command, (err, stdout, stderr) => {
-          if (err) {
-            // node couldn't execute the command
-            reject(err);
-            return;
+      const future = new Future.Future();
+
+      var ffmpeg = exec(command, (err, stdout, stderr) => {
+        // our operation completes
+        future.settle(err, {
+          stderr: stderr,
+          stdout: stdout,
+          output: outputfile,
+          scale: options.name
+        });
+      });
+
+      return future
+        .finally(function() {
+          if (ffmpeg.connected) {
+            ffmpeg.kill();
+          }
+          ffmpeg = null;
+        })
+        .map((error, result) => {
+          // the work is finished, and the finalizer cleaned the unnecessary objects
+          // so we can throw errors, if the ffmpeg returned an error, or just return
+          // an elaboration of the result
+
+          if (error) {
+            // here the error should be transformed to something else to not expose directly ffmpeg error text
+            // add the detail in the linked exception
+            throw error;
           }
 
-          // console.log('Scaling finished for ', options.name, outputfile);
-
-          resolve(outputfile);
+          return result;
         });
-
-        // ffmpeg.stdout.on('data', function(data) {
-        //     console.log(options.name+': ' + data);
-        // });
-        // ffmpeg.stderr.on('data', function(data) {
-        //     console.log(options.name+': ' + data);
-        // });
-        // ffmpeg.on('close', function(code) {
-        //     console.log(options.name+': closing code = ' + code);
-        // });
-      });
     }
   };
 };
