@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.0] - 2018-08-23
+
 ### Added
 
 - `transcode` command to transcode a video to a different format/resolution according to the selected preset.
