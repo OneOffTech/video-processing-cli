@@ -38,12 +38,21 @@ module.exports = function(fileUrl, path) {
         : -1;
       var downloaded = 0;
 
+      if (res.statusCode != 200) {
+        res.destroy();
+        file.close();
+        fs.unlinkSync(path);
+        reject("HTTP request failed with code " + res.statusCode);
+      }
+
       res
         .on("data", function(chunk) {
-          file.write(chunk);
-          downloaded += chunk.length;
-          clearTimeout(timeoutId);
-          timeoutId = setTimeout(fn, timeout);
+          if (file.writable) {
+            file.write(chunk);
+            downloaded += chunk.length;
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(fn, timeout);
+          }
         })
         .on("end", function() {
           // clear timeout
