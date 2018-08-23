@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - FFMPEG is always invoked with `-threads 1` to limit the CPU usage
+- Update to FFMPEG 3.3.4
 
 ### Deprecated
 

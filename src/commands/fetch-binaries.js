@@ -15,7 +15,7 @@ const FFMPEG_DOWNLOAD_URL = {
     "https://ffmpeg.zeranoe.com/builds/win{architecture}/static/ffmpeg-{version}-win{architecture}-static.zip",
   // "macos": ["https://evermeet.cx/ffmpeg/ffmpeg-{version}.7z", "https://evermeet.cx/ffmpeg/ffprobe-{version}.7z"],
   linux:
-    "https://johnvansickle.com/ffmpeg/releases/ffmpeg-{version}-{architecture}bit-static.tar.xz"
+    "https://johnvansickle.com/ffmpeg/old-releases/ffmpeg-{version}-{architecture}bit-static.tar.xz"
 };
 
 const SHAKA_PACKAGER_DOWNLOAD_URL = {
