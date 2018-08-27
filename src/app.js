@@ -17,13 +17,12 @@ const ThumbnailCommand = require("./commands/thumbnail");
 const ProcessCommand = require("./commands/process");
 const FetchBinariesCommand = require("./commands/fetch-binaries");
 
-program.version("0.4.0").on("--help", function() {
+program.version("0.4.1").on("--help", function() {
   // add the what's new section to the --help output
   Log.comment();
   Log.comment("  What's new in", program.version());
   Log.comment();
-  Log.comment("   - Node 8");
-  Log.comment("   - License changed to MIT");
+  Log.comment("   - Move to FFMpeg 3.3.4");
   Log.comment();
 });
 
