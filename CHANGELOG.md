@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
+- Update to FFMPEG 3.3.4
+
+
+## [0.4.0] - 2018-01-22
+
+### Changed
+
 - License from AGPL to MIT
 - Move to Node 8
 

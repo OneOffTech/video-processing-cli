@@ -59,7 +59,7 @@
     ]
   },
   "binaries": {
-    "ffmpeg": "3.3.3",
+    "ffmpeg": "3.3.4",
     "packager": "1.6.2"
   }
 }
