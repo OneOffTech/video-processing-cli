@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.1] - 2018-08-27
+
 ### Fixed
 
 - Chunck download of FFMpeg release
