@@ -37,7 +37,7 @@ module.exports = function(fileUrl, path) {
         ? parseInt(res.headers["content-length"], 10)
         : -1;
       var downloaded = 0;
-
+      var downloadStarted = false;
       if (res.statusCode != 200) {
         res.destroy();
         file.close();
@@ -45,9 +45,10 @@ module.exports = function(fileUrl, path) {
         reject("HTTP request failed with code " + res.statusCode);
       }
 
+      downloadStarted = true;
       res
         .on("data", function(chunk) {
-          if (file.writable) {
+          if (downloadStarted) {
             file.write(chunk);
             downloaded += chunk.length;
             clearTimeout(timeoutId);
