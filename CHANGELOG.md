@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Chunck download of FFMpeg release
+
 ### Changed
 
 - Update to FFMPEG 3.3.4

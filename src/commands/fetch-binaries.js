@@ -91,6 +91,7 @@ function extractFfmpegWindows(file, path) {
   return new Promise(function(resolve, reject) {
     unzip(file, path, function(err) {
       if (err) {
+        Log.error("unzip error", err.message);
         reject(err);
       }
 
