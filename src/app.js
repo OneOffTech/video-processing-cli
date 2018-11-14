@@ -20,15 +20,12 @@ const EncodeCommand = require("./commands/encode");
 const PackCommand = require("./commands/pack");
 const FetchBinariesCommand = require("./commands/fetch-binaries");
 
-program.version("0.5.2").on("--help", function() {
+program.version("0.5.3").on("--help", function() {
   // add the what's new section to the --help output
   Log.comment();
   Log.comment("  What's new in", program.version());
   Log.comment();
-  Log.comment(
-    "   - Fixed metadata reading before scaling a video when using the process command"
-  );
-  Log.comment("   - Fixed scaling output handling in the process command");
+  Log.comment("   - Thumbnail command path argument name");
   Log.comment();
 });
 
