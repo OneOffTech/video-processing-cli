@@ -46,7 +46,7 @@ program
   });
 
 program
-  .command("thumbnail <file> <thumbnail_path>")
+  .command("thumbnail <file> <path>")
   .option(
     "-f, --format [type]",
     "The format in which the thumbnail will be saved (png|jpg) [png].",
@@ -57,7 +57,7 @@ program
     "The name of the thumbnail file. By default is the same name of the video file."
   )
   .description(
-    "Generate a thumbnail (or poster image) from a video <file> into <thumbnail_path>"
+    "Generate a thumbnail (or poster image) from a video <file> into <path>"
   )
   .action(Command.wrap(ThumbnailCommand))
   .on("--help", function() {
@@ -66,7 +66,7 @@ program
     Log.text(
       "    <file> the video file to generate the thumbnail for (required)"
     );
-    Log.text("    <thumbnail_path> where to save the thumbnail (required)");
+    Log.text("    <path> where to save the thumbnail (required)");
     Log.text();
   });
 
