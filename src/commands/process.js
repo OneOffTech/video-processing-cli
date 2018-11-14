@@ -16,7 +16,7 @@ const fs = require("fs");
  * @return {Promise}
  * @deprecated Deprecated in favor of the more controllable transcode plus pack chain
  */
-module.exports = function(input, output) {
+module.exports = async function(input, output) {
   try {
     // file output path and format
     var file = input.arguments.file;
@@ -27,7 +27,7 @@ module.exports = function(input, output) {
     var outfile = Path.join(path, outname);
 
     var ffmpegProcess = new Ffmpeg(file);
-    var details = Details.get(file);
+    var details = await Details.get(file);
 
     output.comment("Grabbed video source details. Start scaling down");
 
@@ -82,7 +82,11 @@ module.exports = function(input, output) {
         return ffmpegProcess.scale(outfile, v);
       })
     )
-      .then(function(values) {
+      .then(function(scalingResult) {
+        var values = scalingResult.map(function(el) {
+          return el.output;
+        });
+
         output.success("Scaling of video completed", values.join(", "));
 
         output.info("Generating DASH manifest");
