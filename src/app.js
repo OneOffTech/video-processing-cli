@@ -20,15 +20,15 @@ const EncodeCommand = require("./commands/encode");
 const PackCommand = require("./commands/pack");
 const FetchBinariesCommand = require("./commands/fetch-binaries");
 
-program.version("0.5.1").on("--help", function() {
+program.version("0.5.2").on("--help", function() {
   // add the what's new section to the --help output
   Log.comment();
   Log.comment("  What's new in", program.version());
   Log.comment();
-  Log.comment("   - FFmpeg 3.3.4");
-  Log.comment("   - Transcode and pack commands");
-  Log.comment("   - Limit FFMpeg threads to 1");
-  Log.comment("   - Deprecated process command");
+  Log.comment(
+    "   - Fixed metadata reading before scaling a video when using the process command"
+  );
+  Log.comment("   - Fixed scaling output handling in the process command");
   Log.comment();
 });
 

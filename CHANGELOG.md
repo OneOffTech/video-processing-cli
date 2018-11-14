@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.2] - 2018-11-14
+
 ### Fixed
 
 - Await of metadata reading before scaling a video using a preset when using the `process` command
