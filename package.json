@@ -1,7 +1,7 @@
 {
   "name": "video-processing-cli",
   "license": "MIT",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "bin": "src/app.js",
   "private": true,
   "author": {
@@ -55,9 +55,9 @@
       "package.json"
     ],
     "targets": [
-      "node8-macos-x64",
-      "node8-linux-x64",
-      "node8-win-x64"
+      "node12-macos-x64",
+      "node12-linux-x64",
+      "node12-win-x64"
     ]
   },
   "binaries": {

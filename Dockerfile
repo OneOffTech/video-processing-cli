@@ -1,7 +1,7 @@
 ## Multi-staged build of the video-processing-cli Docker image 
 
 ## Building the Video Processing CLI binary
-FROM node:8
+FROM node:12
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ RUN npm install -q && npm run production
 
 
 ## Now building the real docker image with all the dependencies
-FROM debian:jessie
+FROM debian:buster
 
 ENV DEBIAN_FRONTEND noninteractive
 
