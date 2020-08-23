@@ -1,0 +1,42 @@
+name: CI
+
+on: 
+  push:
+    branches: 
+      - "master"
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  tests:
+    name: Tests Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [12.x]
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Cache dependencies
+      uses: actions/cache@v1
+      with:
+        path: .npm-cache
+        key: dependencies-nodejs-${{ matrix.node-version }}-${{ hashFiles('package.json') }}
+      
+    - name: Prepare environment
+      run: |
+        npm config set cache .npm-cache
+        npm ci
+        npm run run install
+        
+    - name: Run Testsuite
+      run: |
+        npm run test
