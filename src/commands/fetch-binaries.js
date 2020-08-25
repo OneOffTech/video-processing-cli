@@ -40,6 +40,11 @@ function downloadShakaPackager(platform) {
     Package.binaries.packager
   );
 
+  if(fse.existsSync("./bin/" + Path.basename(packagerUrl))){
+    Log.info("Shaka Packager already existing");
+    return Promise.resolve(null);
+  }  
+
   return new Downloader(packagerUrl, "./bin/" + Path.basename(packagerUrl))
     .then(function(f) {
       
@@ -79,6 +84,12 @@ function downloadFfmpeg(platform, architecture) {
   var ffmpegUrl = FFMPEG_DOWNLOAD_URL[platform]
     .replace(/\{architecture\}/g, architecture)
     .replace(/\{version\}/g, Package.binaries.ffmpeg);
+
+  if(fse.existsSync("./bin/ffmpeg" + (platform === "win" ? ".exe" : "")) && 
+      fse.existsSync("./bin/ffprobe" + (platform === "win" ? ".exe" : "")) ){
+    Log.info("FFMPEG already existing");
+    return Promise.resolve(null);
+  }
 
   return new Downloader(ffmpegUrl, "./bin/" + Path.basename(ffmpegUrl))
     .then(function(f) {
