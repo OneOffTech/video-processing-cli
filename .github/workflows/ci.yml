@@ -9,7 +9,7 @@ on:
 
 jobs:
   tests:
-    name: Tests Node ${{ matrix.node-version }}
+    name: Tests Node ${{ matrix.node-version }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: true
