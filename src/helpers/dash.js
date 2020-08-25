@@ -59,6 +59,7 @@ module.exports = function() {
         var packager = exec(command, (err, stdout, stderr) => {
           if (err) {
             // node couldn't execute the command
+            console.log("shaka packager error", err);
             reject(err);
             return;
           }
