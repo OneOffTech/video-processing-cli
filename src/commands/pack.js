@@ -52,7 +52,7 @@ module.exports = async function(input, output) {
 
     return new Dash().generate(files, mpdOutput, dashOptions).then(function() {
       output.success(`Dash (mpd) manifest generated ${mpdOutput}.mpd `);
-    });
+    }).catch(function(err){ throw err; });
   } catch (error) {
     output.error(error.message);
     throw error;

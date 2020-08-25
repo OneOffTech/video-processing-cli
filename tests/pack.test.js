@@ -16,18 +16,23 @@ beforeEach(() => {
   });
 });
 
-test("command packs 2 videos", () => {
+test("command packs 2 videos", async () => {
   var files = ["./videos/video-360.mp4", "./videos/video-540.mp4"];
+  expect.assertions(1);
 
-  expect(() => {
-    Command(
+  
+  expect.assertions(1);
+  try {
+    await Command(
       {
         arguments: { files: files },
         options: { name: "test" }
       },
       NullOutput
     );
-  }).not.toThrow();
+    expect(true).toBeTruthy();
+  } catch (e) {
+  }
 });
 
 test("command throws if no video files are specified", async () => {
