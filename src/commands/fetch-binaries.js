@@ -84,6 +84,7 @@ function downloadFfmpeg(platform, architecture) {
     })
     .catch(function(err) {
       Log.error("FFMPEG not downloaded,", err);
+      throw new Error("FFMPEG not downloaded");
     });
 }
 
@@ -128,6 +129,7 @@ function extractFfmpegWindows(file, path) {
     })
     .catch(function(err) {
       Log.error("Failed to extract FFMPEG binaries:", err.message);
+      throw new Error("Failed to extract FFMPEG binaries:", err.message);
     });
 }
 
@@ -165,6 +167,7 @@ function extractFfmpegLinux(file, path) {
     })
     .catch(function(err) {
       Log.error("Failed to extract FFMPEG binaries:", err);
+      throw new Error("Failed to extract FFMPEG binaries:", err.message);
     });
 }
 
