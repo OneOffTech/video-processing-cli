@@ -41,6 +41,17 @@ function downloadShakaPackager(platform) {
 
   return new Downloader(packagerUrl, "./bin/" + Path.basename(packagerUrl))
     .then(function(f) {
+      
+      if(platform === 'linux'){
+        try{
+
+          fs.chmodSync(f, 777);
+          Log.info("Shaka Packager execution permission set for ", f);
+        }
+        catch(err){
+          Log.error("Failed to set execution permission for Shaka Packager", err);
+        }
+      }
       Log.success("Shaka Packager downloaded in", f);
     })
     .catch(function(err) {
