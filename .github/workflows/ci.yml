@@ -10,11 +10,12 @@ on:
 jobs:
   tests:
     name: Tests Node ${{ matrix.node-version }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: true
       matrix:
         node-version: [12.x]
+        os: [ubuntu-latest, windows-latest]
     
     steps:
     - uses: actions/checkout@v2
