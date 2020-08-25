@@ -13,7 +13,8 @@ const exec = require("child_process").exec;
 const FFMPEG_DOWNLOAD_URL = {
   win:
     "https://ffmpeg.zeranoe.com/builds/win{architecture}/static/ffmpeg-{version}-win{architecture}-static.zip",
-  // "macos": ["https://evermeet.cx/ffmpeg/ffmpeg-{version}.7z", "https://evermeet.cx/ffmpeg/ffprobe-{version}.7z"],
+  macos: 
+    "https://ffmpeg.zeranoe.com/builds/macos{architecture}/static/ffmpeg-{version}-macos{architecture}-static.zip",
   linux:
     "https://johnvansickle.com/ffmpeg/old-releases/ffmpeg-{version}-{architecture}bit-static.tar.xz"
 };
@@ -62,8 +63,8 @@ function downloadShakaPackager(platform) {
 /**
  * Downloads the FFMPEG and FFPROBE binaries
  * 
- * @param {string} platform the platform, supported values are "win", "linux"
- * @param {string} architecture the architecture, supported values as "64" or "32"
+ * @param {string} platform the platform, supported values are "win", "macos" "linux"
+ * @param {string} architecture the architecture, supported values are "64" (for 64bit architecture)
  * @return {Promise}
  */
 function downloadFfmpeg(platform, architecture) {
@@ -86,9 +87,15 @@ function downloadFfmpeg(platform, architecture) {
       // extract the compressed archive content
       Log.comment("Extracting ffmpeg binaries...");
 
-      return platform === "win"
-        ? extractFfmpegWindows("./bin/" + Path.basename(ffmpegUrl), "./bin/")
-        : extractFfmpegLinux(
+      if(platform === "win"){
+        return extractFfmpegWindows("./bin/" + Path.basename(ffmpegUrl), "./bin/");
+      }
+      
+      if(platform === "macos"){
+        return extractFfmpegMacos("./bin/" + Path.basename(ffmpegUrl), "./bin/");
+      }
+
+      return extractFfmpegLinux(
             Path.join(process.cwd(), "bin", Path.basename(ffmpegUrl)),
             Path.join(process.cwd(), "bin")
           );
@@ -125,6 +132,51 @@ function extractFfmpegWindows(file, path) {
           "ffprobe.exe"
         ),
         Path.join(path, "ffprobe.exe"),
+        { overwrite: true }
+      );
+
+      fse.removeSync(
+        Path.join(path, Path.basename(file).replace(Path.extname(file), ""))
+      );
+      fse.removeSync(file);
+      resolve(null);
+    });
+  })
+    .then(function() {
+      Log.success("FFMPEG binaries extracted from archive");
+    })
+    .catch(function(err) {
+      Log.error("Failed to extract FFMPEG binaries:", err.message);
+      throw new Error("Failed to extract FFMPEG binaries:", err.message);
+    });
+}
+
+function extractFfmpegMacos(file, path) {
+  return new Promise(function(resolve, reject) {
+    unzip(file, path, function(err) {
+      if (err) {
+        Log.error("unzip error", err.message);
+        reject(err);
+      }
+
+      fse.copySync(
+        Path.join(
+          path,
+          Path.basename(file).replace(Path.extname(file), ""),
+          "bin",
+          "ffmpeg"
+        ),
+        Path.join(path, "ffmpeg"),
+        { overwrite: true }
+      );
+      fse.copySync(
+        Path.join(
+          path,
+          Path.basename(file).replace(Path.extname(file), ""),
+          "bin",
+          "ffprobe"
+        ),
+        Path.join(path, "ffprobe"),
         { overwrite: true }
       );
 

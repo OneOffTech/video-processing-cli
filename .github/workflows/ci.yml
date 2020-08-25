@@ -15,7 +15,7 @@ jobs:
       fail-fast: true
       matrix:
         node-version: [12.x]
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     
     steps:
     - uses: actions/checkout@v2
@@ -37,6 +37,7 @@ jobs:
         npm config set cache .npm-cache
         npm ci
         npm run run install
+        ls -la ./bin
         
     - name: Run Testsuite
       run: |
