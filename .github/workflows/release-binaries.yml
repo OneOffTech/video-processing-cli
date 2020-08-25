@@ -33,7 +33,7 @@ jobs:
         npm config set cache .npm-cache
         npm ci
         npm run production
-        ./dist/video-processing-cli --help
+        ./dist/video-processing-cli-linux --help
     - name: Upload Linux build
       uses: actions/upload-release-asset@v1
       if: github.event_name == 'release'
