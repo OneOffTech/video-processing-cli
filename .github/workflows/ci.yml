@@ -29,10 +29,14 @@ jobs:
     - name: Cache dependencies
       uses: actions/cache@v1
       with:
-        path: |
-          .npm-cache
-          ./bin/
+        path: .npm-cache
         key: dependencies-${{matrix.os}}-${{ matrix.node-version }}-${{ hashFiles('package.json') }}
+
+    - name: Cache binaries
+      uses: actions/cache@v1
+      with:
+        path: bin
+        key: binaries-${{matrix.os}}-${{ matrix.node-version }}-${{ hashFiles('package.json') }}
       
     - name: Prepare environment
       run: |
