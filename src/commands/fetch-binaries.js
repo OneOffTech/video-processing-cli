@@ -96,6 +96,8 @@ function downloadFfmpeg(platform, architecture) {
     .replace(/\{architecture\}/g, architecture)
     .replace(/\{version\}/g, Package.binaries.ffmpeg);
 
+  Log.info(domain);
+
   if(fse.existsSync("./bin/ffmpeg" + (platform === "win" ? ".exe" : "")) && 
       fse.existsSync("./bin/ffprobe" + (platform === "win" ? ".exe" : "")) ){
     Log.info("FFMPEG already existing");
