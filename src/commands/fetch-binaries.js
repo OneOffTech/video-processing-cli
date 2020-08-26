@@ -25,7 +25,7 @@ const FFMPEG_DOWNLOAD_DOMAINS = {
   macos: 
     "https://ffmpeg.zeranoe.com/",
   linux:
-    "https://johnvansickle.com/"
+    "http://johnvansickle.com/"
 };
 
 const SHAKA_PACKAGER_DOWNLOAD_URL = {
