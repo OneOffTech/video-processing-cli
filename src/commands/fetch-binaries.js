@@ -10,13 +10,22 @@ const fse = require("fs-extra");
 const { unzip } = require("cross-unzip");
 const exec = require("child_process").exec;
 
-const FFMPEG_DOWNLOAD_URL = {
+const FFMPEG_DOWNLOAD_PATH = {
   win:
-    "https://ffmpeg.zeranoe.com/builds/win{architecture}/static/ffmpeg-{version}-win{architecture}-static.zip",
+    "builds/win{architecture}/static/ffmpeg-{version}-win{architecture}-static.zip",
   macos: 
-    "https://ffmpeg.zeranoe.com/builds/macos{architecture}/static/ffmpeg-{version}-macos{architecture}-static.zip",
+    "builds/macos{architecture}/static/ffmpeg-{version}-macos{architecture}-static.zip",
   linux:
-    "https://johnvansickle.com/ffmpeg/old-releases/ffmpeg-{version}-{architecture}bit-static.tar.xz"
+    "old-releases/ffmpeg-{version}-{architecture}bit-static.tar.xz"
+};
+
+const FFMPEG_DOWNLOAD_DOMAINS = {
+  win:
+    "https://ffmpeg.zeranoe.com/",
+  macos: 
+    "https://ffmpeg.zeranoe.com/",
+  linux:
+    "https://johnvansickle.com/"
 };
 
 const SHAKA_PACKAGER_DOWNLOAD_URL = {
@@ -73,7 +82,7 @@ function downloadShakaPackager(platform) {
  * @return {Promise}
  */
 function downloadFfmpeg(platform, architecture) {
-  if (!FFMPEG_DOWNLOAD_URL[platform]) {
+  if (!FFMPEG_DOWNLOAD_DOMAINS[platform] && !FFMPEG_DOWNLOAD_PATH[platform] ) {
     Log.error(
       "FFMPEG download aborted: platform not supported",
       "(" + platform + ")"
@@ -81,7 +90,9 @@ function downloadFfmpeg(platform, architecture) {
     return Promise.resolve(null);
   }
 
-  var ffmpegUrl = FFMPEG_DOWNLOAD_URL[platform]
+  var domain = process.env.CI_CACHE_DOMAIN || FFMPEG_DOWNLOAD_DOMAINS[platform];
+
+  var ffmpegUrl = domain + FFMPEG_DOWNLOAD_PATH[platform]
     .replace(/\{architecture\}/g, architecture)
     .replace(/\{version\}/g, Package.binaries.ffmpeg);
 
