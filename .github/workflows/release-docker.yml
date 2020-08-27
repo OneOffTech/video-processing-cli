@@ -29,10 +29,10 @@ jobs:
         password: ${{ secrets.CI_REGISTRY_PASSWORD }}
     - name: Push the Docker image
       if: github.event_name == 'release'
-      # docker tag $NAMESPACE_DOCKER_HUB:$IMAGE_TAG $NAMESPACE_DOCKER_HUB:latest
-      # docker push $NAMESPACE_DOCKER_HUB:latest
       run: |
         export IMAGE_TAG=${IMAGE_VERSION#v}
         docker tag $NAMESPACE_DOCKER_HUB:$IMAGE_VERSION $NAMESPACE_DOCKER_HUB:$IMAGE_TAG
         docker push $NAMESPACE_DOCKER_HUB:$IMAGE_TAG
+        docker tag $NAMESPACE_DOCKER_HUB:$IMAGE_TAG $NAMESPACE_DOCKER_HUB:latest
+        docker push $NAMESPACE_DOCKER_HUB:latest
         
