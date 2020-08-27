@@ -16,7 +16,7 @@ const FFMPEG_DOWNLOAD_PATH = {
   macos: 
     "builds/macos{architecture}/static/ffmpeg-{version}-macos{architecture}-static.zip",
   linux:
-    "old-releases/ffmpeg-{version}-{architecture}bit-static.tar.xz"
+    "ffmpeg/old-releases/ffmpeg-{version}-{architecture}bit-static.tar.xz"
 };
 
 const FFMPEG_DOWNLOAD_DOMAINS = {

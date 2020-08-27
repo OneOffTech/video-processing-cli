@@ -42,7 +42,7 @@ module.exports = function(fileUrl, path) {
         res.destroy();
         file.close();
         fs.unlinkSync(path);
-        reject("HTTP request failed with code " + res.statusCode);
+        return reject("HTTP request failed with code " + res.statusCode);
       }
 
       downloadStarted = true;

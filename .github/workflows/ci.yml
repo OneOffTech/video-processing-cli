@@ -40,7 +40,6 @@ jobs:
       
     - name: Prepare environment
       run: |
-        export CI_CACHE_DOMAIN=https://cache.oneofftech.xyz/
         npm config set cache .npm-cache
         npm ci
         npm run run install
