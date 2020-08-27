@@ -16,7 +16,7 @@ const fs = require("fs");
  * @link https://gist.github.com/falkolab/f160f446d0bda8a69172
  */
 module.exports = function(fileUrl, path) {
-  var timeout = 10000;
+  var timeout = 200000;
 
   if (fs.existsSync(path)) {
     return Promise.resolve(path, true);
@@ -42,7 +42,7 @@ module.exports = function(fileUrl, path) {
         res.destroy();
         file.close();
         fs.unlinkSync(path);
-        reject("HTTP request failed with code " + res.statusCode);
+        return reject("HTTP request failed with code " + res.statusCode);
       }
 
       downloadStarted = true;

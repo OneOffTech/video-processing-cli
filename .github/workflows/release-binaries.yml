@@ -1,0 +1,66 @@
+name: Release binaries
+
+on: 
+  push:
+    branches: 
+      - "master"
+  pull_request:
+    types: [opened, synchronize, reopened]
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+  
+    - name: Cache dependencies
+      uses: actions/cache@v1
+      with:
+        path: |
+          .npm-cache
+          ./bin/
+        key: dependencies-ubuntu-latest-12.x-${{ hashFiles('package.json') }}
+    - name: Prepare build
+      run: |
+        npm config set cache .npm-cache
+        npm ci
+        npm run production
+        ./dist/video-processing-cli-linux --help
+    - name: Upload Linux build
+      uses: actions/upload-release-asset@v1
+      if: github.event_name == 'release'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./dist/video-processing-cli-linux
+        asset_name: video-processing-cli-linux
+        asset_content_type: application/octet-stream
+    - name: Upload Windows build
+      uses: actions/upload-release-asset@v1
+      if: github.event_name == 'release'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./dist/video-processing-cli-win.exe
+        asset_name: video-processing-cli-win.exe
+        asset_content_type: application/octet-stream
+    - name: Upload MacOS build
+      uses: actions/upload-release-asset@v1
+      if: github.event_name == 'release'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./dist/video-processing-cli-macos
+        asset_name: video-processing-cli-macos
+        asset_content_type: application/octet-stream

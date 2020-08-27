@@ -14,7 +14,7 @@ const fs = require("fs");
  * 
  * @param {string} input.arguments.files the video files to pack
  * @param {string} input.options.out the location where the outputs will be saved
- * @param {string} input.options.name the manifest filename
+ * @param {string} input.options.filename the manifest filename
  * @param {Object} command the command being executed (e.g. to get options)
  * @return {Promise}
  */
@@ -28,7 +28,7 @@ module.exports = async function(input, output) {
 
     var path = input.options.out || Path.dirname(files[0]);
     var mpdName =
-      input.options.name || Path.basename(files[0], Path.extname(files[0]));
+      input.options.filename || Path.basename(files[0], Path.extname(files[0]));
 
     // file output path and format
     output.comment("Packing for DASH playback", files.join(","));
@@ -52,7 +52,7 @@ module.exports = async function(input, output) {
 
     return new Dash().generate(files, mpdOutput, dashOptions).then(function() {
       output.success(`Dash (mpd) manifest generated ${mpdOutput}.mpd `);
-    });
+    }).catch(function(err){ throw err; });
   } catch (error) {
     output.error(error.message);
     throw error;

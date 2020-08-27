@@ -19,15 +19,13 @@ beforeEach(() => {
 test("command packs 2 videos", () => {
   var files = ["./videos/video-360.mp4", "./videos/video-540.mp4"];
 
-  expect(() => {
-    Command(
-      {
-        arguments: { files: files },
-        options: { name: "test" }
-      },
-      NullOutput
-    );
-  }).not.toThrow();
+  expect(async () => await Command(
+    {
+      arguments: { files: files },
+      options: { name: "test" }
+    },
+    NullOutput
+  )).not.toBeUndefined();
 });
 
 test("command throws if no video files are specified", async () => {

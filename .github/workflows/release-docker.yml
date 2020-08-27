@@ -1,0 +1,38 @@
+name: Release Docker Image
+
+on: 
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      NAMESPACE_DOCKER_HUB: 'oneofftech/video-processing-cli'
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+    - name: Define image version
+      run: |
+        export REF_SLUG=$(echo "$GITHUB_REF" | tr "[:upper:]" "[:lower:]" | sed -r 's#refs/[^\/]*/##;s/[~\^]+//g;s/[^a-zA-Z0-9.]+/-/g;s/^-+\|-+$//g;s/^-*//;s/-*$//' | cut -c1-63)
+        echo "::set-env name=IMAGE_VERSION::${REF_SLUG}"
+    - name: Build the Docker image 
+      run: |
+        echo ${{ env.IMAGE_VERSION }}
+        docker build --compress --build-arg CI_CACHE_DOMAIN=https://cache.oneofftech.xyz/  -t $NAMESPACE_DOCKER_HUB:${{ env.IMAGE_VERSION }} .
+    - name: Prepare push
+      uses: azure/docker-login@v1
+      if: github.event_name == 'release'
+      with:
+        username: ${{ secrets.CI_REGISTRY_USER }}
+        password: ${{ secrets.CI_REGISTRY_PASSWORD }}
+    - name: Push the Docker image
+      if: github.event_name == 'release'
+      # docker tag $NAMESPACE_DOCKER_HUB:$IMAGE_TAG $NAMESPACE_DOCKER_HUB:latest
+      # docker push $NAMESPACE_DOCKER_HUB:latest
+      run: |
+        export IMAGE_TAG=${IMAGE_VERSION#v}
+        docker tag $NAMESPACE_DOCKER_HUB:$IMAGE_VERSION $NAMESPACE_DOCKER_HUB:$IMAGE_TAG
+        docker push $NAMESPACE_DOCKER_HUB:$IMAGE_TAG
+        

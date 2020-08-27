@@ -7,7 +7,7 @@ stages:
   - publish
 
 cache:
-  key: "video-cli-node8"
+  key: "video-cli-node12"
   paths:
   - .npm-cache
 
@@ -15,7 +15,7 @@ variables:
     CONTAINER_RELEASE_IMAGE_BASE: $CI_REGISTRY/images/video-processing-cli
 
 test:
-  image: node:8
+  image: node:12
   stage: test
   before_script:
     - npm config set cache .npm-cache
@@ -28,7 +28,7 @@ test:
 
 ## Build the standalone executables
 package:
-  image: node:8
+  image: node:12
   stage: build
   before_script:
     - npm config set cache .npm-cache

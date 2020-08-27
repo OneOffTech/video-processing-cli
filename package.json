@@ -1,7 +1,7 @@
 {
   "name": "video-processing-cli",
   "license": "MIT",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "bin": "src/app.js",
   "private": true,
   "author": {
@@ -9,27 +9,27 @@
     "email": "alessio@oneofftech.xyz"
   },
   "engines": {
-    "node": ">=8.0"
+    "node": ">=11.0"
   },
   "dependencies": {
-    "cli-color": "^1.4.0",
-    "commander": "~2.19.0",
+    "cli-color": "^2.0.0",
+    "commander": "^6.0.0",
     "cross-unzip": "^0.2.1",
-    "follow-redirects": "^1.5.10",
-    "fs-extra": "^7.0.1",
-    "posterus": "0.4.7",
-    "which": "^1.3.1",
+    "follow-redirects": "^1.13.0",
+    "fs-extra": "^9.0.1",
+    "posterus": "^0.4.7",
+    "which": "^2.0.2",
     "win-7zip": "^0.1.1"
   },
   "devDependencies": {
-    "eslint": "^5.9.0",
-    "eslint-config-prettier": "^3.3.0",
-    "husky": "^1.2.0",
-    "jest": "^23.6.0",
-    "jest-cli": "^23.6.0",
-    "lint-staged": "^8.1.0",
-    "pkg": "~4.3.0",
-    "prettier": "1.15.2"
+    "eslint": "^7.7.0",
+    "eslint-config-prettier": "^6.11.0",
+    "husky": "^4.2.5",
+    "jest": "^26.4.2",
+    "jest-cli": "^26.4.2",
+    "lint-staged": "^10.2.11",
+    "pkg": "^4.4.9",
+    "prettier": "^2.0.5"
   },
   "scripts": {
     "run": "node ./src/app.js",
@@ -55,9 +55,9 @@
       "package.json"
     ],
     "targets": [
-      "node8-macos-x64",
-      "node8-linux-x64",
-      "node8-win-x64"
+      "node12-macos-x64",
+      "node12-linux-x64",
+      "node12-win-x64"
     ]
   },
   "binaries": {

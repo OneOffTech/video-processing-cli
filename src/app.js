@@ -20,12 +20,12 @@ const EncodeCommand = require("./commands/encode");
 const PackCommand = require("./commands/pack");
 const FetchBinariesCommand = require("./commands/fetch-binaries");
 
-program.version("0.5.3").on("--help", function() {
+program.version("0.6.0").on("--help", function() {
   // add the what's new section to the --help output
   Log.comment();
   Log.comment("  What's new in", program.version());
   Log.comment();
-  Log.comment("   - Thumbnail command path argument name");
+  Log.comment("   - pack command name option is now filename");
   Log.comment();
 });
 
@@ -111,7 +111,7 @@ program
     "-o, --out [path]",
     "The path in which the output will be saved. Default the same folder as the first video."
   )
-  .option("-n, --name [name]", "The filename of the DASH mpd file.")
+  .option("-n, --filename [filename]", "The filename of the DASH mpd file.")
   .description(
     "Pack different video resolutions into a DASH playlist for streaming"
   )

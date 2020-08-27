@@ -10,12 +10,22 @@ const fse = require("fs-extra");
 const { unzip } = require("cross-unzip");
 const exec = require("child_process").exec;
 
-const FFMPEG_DOWNLOAD_URL = {
+const FFMPEG_DOWNLOAD_PATH = {
   win:
-    "https://ffmpeg.zeranoe.com/builds/win{architecture}/static/ffmpeg-{version}-win{architecture}-static.zip",
-  // "macos": ["https://evermeet.cx/ffmpeg/ffmpeg-{version}.7z", "https://evermeet.cx/ffmpeg/ffprobe-{version}.7z"],
+    "builds/win{architecture}/static/ffmpeg-{version}-win{architecture}-static.zip",
+  macos: 
+    "builds/macos{architecture}/static/ffmpeg-{version}-macos{architecture}-static.zip",
   linux:
-    "https://johnvansickle.com/ffmpeg/old-releases/ffmpeg-{version}-{architecture}bit-static.tar.xz"
+    "ffmpeg/old-releases/ffmpeg-{version}-{architecture}bit-static.tar.xz"
+};
+
+const FFMPEG_DOWNLOAD_DOMAINS = {
+  win:
+    "https://ffmpeg.zeranoe.com/",
+  macos: 
+    "https://ffmpeg.zeranoe.com/",
+  linux:
+    "https://www.johnvansickle.com/"
 };
 
 const SHAKA_PACKAGER_DOWNLOAD_URL = {
@@ -39,8 +49,24 @@ function downloadShakaPackager(platform) {
     Package.binaries.packager
   );
 
+  if(fse.existsSync("./bin/" + Path.basename(packagerUrl))){
+    Log.info("Shaka Packager already existing");
+    return Promise.resolve(null);
+  }  
+
   return new Downloader(packagerUrl, "./bin/" + Path.basename(packagerUrl))
     .then(function(f) {
+      
+      if(platform === 'linux'){
+        try{
+
+          fs.chmodSync(f, 777);
+          Log.info("Shaka Packager execution permission set for ", f);
+        }
+        catch(err){
+          Log.error("Failed to set execution permission for Shaka Packager", err);
+        }
+      }
       Log.success("Shaka Packager downloaded in", f);
     })
     .catch(function(err) {
@@ -51,12 +77,12 @@ function downloadShakaPackager(platform) {
 /**
  * Downloads the FFMPEG and FFPROBE binaries
  * 
- * @param {string} platform the platform, supported values are "win", "linux"
- * @param {string} architecture the architecture, supported values as "64" or "32"
+ * @param {string} platform the platform, supported values are "win", "macos" "linux"
+ * @param {string} architecture the architecture, supported values are "64" (for 64bit architecture)
  * @return {Promise}
  */
 function downloadFfmpeg(platform, architecture) {
-  if (!FFMPEG_DOWNLOAD_URL[platform]) {
+  if (!FFMPEG_DOWNLOAD_DOMAINS[platform] && !FFMPEG_DOWNLOAD_PATH[platform] ) {
     Log.error(
       "FFMPEG download aborted: platform not supported",
       "(" + platform + ")"
@@ -64,9 +90,19 @@ function downloadFfmpeg(platform, architecture) {
     return Promise.resolve(null);
   }
 
-  var ffmpegUrl = FFMPEG_DOWNLOAD_URL[platform]
+  var domain = process.env.CI_CACHE_DOMAIN || FFMPEG_DOWNLOAD_DOMAINS[platform];
+
+  var ffmpegUrl = domain + FFMPEG_DOWNLOAD_PATH[platform]
     .replace(/\{architecture\}/g, architecture)
     .replace(/\{version\}/g, Package.binaries.ffmpeg);
+
+  Log.info(domain);
+
+  if(fse.existsSync("./bin/ffmpeg" + (platform === "win" ? ".exe" : "")) && 
+      fse.existsSync("./bin/ffprobe" + (platform === "win" ? ".exe" : "")) ){
+    Log.info("FFMPEG already existing");
+    return Promise.resolve(null);
+  }
 
   return new Downloader(ffmpegUrl, "./bin/" + Path.basename(ffmpegUrl))
     .then(function(f) {
@@ -75,15 +111,22 @@ function downloadFfmpeg(platform, architecture) {
       // extract the compressed archive content
       Log.comment("Extracting ffmpeg binaries...");
 
-      return platform === "win"
-        ? extractFfmpegWindows("./bin/" + Path.basename(ffmpegUrl), "./bin/")
-        : extractFfmpegLinux(
+      if(platform === "win"){
+        return extractFfmpegWindows("./bin/" + Path.basename(ffmpegUrl), "./bin/");
+      }
+      
+      if(platform === "macos"){
+        return extractFfmpegMacos("./bin/" + Path.basename(ffmpegUrl), "./bin/");
+      }
+
+      return extractFfmpegLinux(
             Path.join(process.cwd(), "bin", Path.basename(ffmpegUrl)),
             Path.join(process.cwd(), "bin")
           );
     })
     .catch(function(err) {
       Log.error("FFMPEG not downloaded,", err);
+      throw new Error("FFMPEG not downloaded");
     });
 }
 
@@ -128,6 +171,52 @@ function extractFfmpegWindows(file, path) {
     })
     .catch(function(err) {
       Log.error("Failed to extract FFMPEG binaries:", err.message);
+      throw new Error("Failed to extract FFMPEG binaries:", err.message);
+    });
+}
+
+function extractFfmpegMacos(file, path) {
+  return new Promise(function(resolve, reject) {
+    unzip(file, path, function(err) {
+      if (err) {
+        Log.error("unzip error", err.message);
+        reject(err);
+      }
+
+      fse.copySync(
+        Path.join(
+          path,
+          Path.basename(file).replace(Path.extname(file), ""),
+          "bin",
+          "ffmpeg"
+        ),
+        Path.join(path, "ffmpeg"),
+        { overwrite: true }
+      );
+      fse.copySync(
+        Path.join(
+          path,
+          Path.basename(file).replace(Path.extname(file), ""),
+          "bin",
+          "ffprobe"
+        ),
+        Path.join(path, "ffprobe"),
+        { overwrite: true }
+      );
+
+      fse.removeSync(
+        Path.join(path, Path.basename(file).replace(Path.extname(file), ""))
+      );
+      fse.removeSync(file);
+      resolve(null);
+    });
+  })
+    .then(function() {
+      Log.success("FFMPEG binaries extracted from archive");
+    })
+    .catch(function(err) {
+      Log.error("Failed to extract FFMPEG binaries:", err.message);
+      throw new Error("Failed to extract FFMPEG binaries:", err.message);
     });
 }
 
@@ -165,6 +254,7 @@ function extractFfmpegLinux(file, path) {
     })
     .catch(function(err) {
       Log.error("Failed to extract FFMPEG binaries:", err);
+      throw new Error("Failed to extract FFMPEG binaries:", err.message);
     });
 }
 
