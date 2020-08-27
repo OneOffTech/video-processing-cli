@@ -12,6 +12,8 @@ RUN npm ci && npm run production
 ## Now building the real docker image with all the dependencies
 FROM debian:10-slim
 
+ARG CI_CACHE_DOMAIN
+
 ENV DEBIAN_FRONTEND noninteractive
 
 WORKDIR /video-processing-cli/

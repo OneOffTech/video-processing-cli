@@ -20,7 +20,7 @@ jobs:
     - name: Build the Docker image 
       run: |
         echo ${{ env.IMAGE_VERSION }}
-        docker build --compress --cache-from $NAMESPACE_DOCKER_HUB:latest -t $NAMESPACE_DOCKER_HUB:${{ env.IMAGE_VERSION }} .
+        docker build --compress --build-arg CI_CACHE_DOMAIN=https://cache.oneofftech.xyz/  -t $NAMESPACE_DOCKER_HUB:${{ env.IMAGE_VERSION }} .
     - name: Prepare push
       uses: azure/docker-login@v1
       if: github.event_name == 'release'
