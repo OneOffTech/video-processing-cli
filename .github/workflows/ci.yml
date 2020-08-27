@@ -37,10 +37,14 @@ jobs:
       with:
         path: bin
         key: binaries-${{matrix.os}}-${{ matrix.node-version }}-${{ hashFiles('package.json') }}
+
+    - name: Use own cache server
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        echo "::set-env name=CI_CACHE_DOMAIN::https://cache.oneofftech.xyz/"
       
     - name: Prepare environment
       run: |
-        export CI_CACHE_DOMAIN=https://cache.oneofftech.xyz/
         npm config set cache .npm-cache
         npm ci
         npm run run install
