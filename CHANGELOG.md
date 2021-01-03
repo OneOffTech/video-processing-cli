@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.0] - 2021-01-03
+
+### Changed
+
+- Required FFMPEG version is now 4.3.1
+- Automatically fetched binaries existence is now based on the SHA-256 checksum
+
+## [0.6.0] - 2020-08-27
+
+### Changed
+
+- pack command name option renamed to filename (breaking change)
+- use Node 12 for build
+- Increased file download timeout
+
 ## [0.5.3] - 2018-11-14
 
 ### Fixed
