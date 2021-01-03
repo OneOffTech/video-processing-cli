@@ -91,7 +91,7 @@ function getBinary(name, url, checksum, platform) {
         
         if(platform === 'linux'){
           try{
-            fs.chmodSync(f, 777);
+            fs.chmodSync(f, 644);
             Log.info("Execution permission set for ", f);
           }
           catch(err){
