@@ -37,18 +37,12 @@ jobs:
       with:
         path: bin
         key: binaries-${{matrix.os}}-${{ matrix.node-version }}-${{ hashFiles('package.json') }}
-
-    - name: Use own cache server
-      if: matrix.os == 'ubuntu-latest'
-      run: |
-        echo "CI_CACHE_DOMAIN=https://cache.oneofftech.xyz/" >> $GITHUB_ENV
       
     - name: Prepare environment
       run: |
         npm config set cache .npm-cache
         npm ci
         npm run run install
-        ls ./bin
         
     - name: Run Testsuite
       run: |

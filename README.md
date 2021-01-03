@@ -28,8 +28,8 @@ The binaries are generated for 64 bit version of the OS
 
 In order to use the video-processing-cli you need
 
-- [FFMPEG](https://ffmpeg.org/) version 3.3.3 or above
-- [Shaka Packager](https://github.com/google/shaka-packager/releases) version 1.6.2 or above
+- [FFMPEG](https://ffmpeg.org/) version 4.3.1 or above
+- [Shaka Packager](https://github.com/google/shaka-packager/releases) version 1.6.2
 
 The binaries can be added to the shell/command line PATH or in a `bin` folder. 
 The `bin` folder must be in the same working directory where the 
@@ -44,18 +44,22 @@ Binaries are automatically built for each tagged release.
 
 Alternatively a docker image is available, see [Usage via Docker](#via-docker-image).
 
-**Fetching the requirements**
+**Download FFMPEG and Shaka Packager executables**
 
-If you don't have already FFMPEG and Shaka Packager on your system, you can run
+Download or install FFMPEG and Shaka Packager on your system.
+Installation procedure may vary depending on the Operating System, but you can download
+a standalone binary from https://ffmpeg.org/download.html. Once downloaded place
+the binaries in the `bin` directory.
+
+The Video Processing Cli can download binaries from a mirror site by executing
 
 ```bash
 $ video-processing-cli fetch:binaries
 ```
 
-This will download the standalone, statically linked, binaries. 
-The downloaded version is based on your Operating System and architecture (32 or 64 bit).
-
-> A note for **MacOS** users: we currently don't support the automated download of FFMPEG. Pull requests are accepted.
+This will attempt to download a standalone, statically linked, version of FFMPEG, FFPROBE 
+and Shaka Packager for your operating system. The downloaded version requires a 64bit 
+architecture and is not compatible with ARM or Apple Silicon.
 
 ### Usage
 
