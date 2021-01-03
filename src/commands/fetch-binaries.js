@@ -82,7 +82,9 @@ function getBinary(name, url, checksum, platform) {
 
     Log.warning("Downloading " + name + "...");
 
-    fse.renameSync(path, path + ".old");
+    if(calculatedChecksum){
+      fse.renameSync(path, path + ".old");
+    }
 
     return new Downloader(url, path)
       .then(function(f) {
