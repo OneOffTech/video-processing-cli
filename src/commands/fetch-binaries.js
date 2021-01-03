@@ -91,11 +91,11 @@ function getBinary(name, url, checksum, platform) {
         
         if(platform === 'linux'){
           try{
-            fs.chmodSync(f, 644);
-            Log.info("Execution permission set for ", f);
+            fs.chmodSync(f, 0o775);
+            Log.info("Permissions set for ", f);
           }
           catch(err){
-            Log.error("Failed to set execution permission for ", err);
+            Log.error("Failed to set permissions for ", err);
           }
         }
         Log.success(name + " downloaded in", f);
