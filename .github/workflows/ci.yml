@@ -43,7 +43,7 @@ jobs:
         npm config set cache .npm-cache
         npm ci
         npm run run install
-        ls ./bin
+        ls -la ./bin
         
     - name: Run Testsuite
       run: |
