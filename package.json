@@ -14,12 +14,10 @@
   "dependencies": {
     "cli-color": "^2.0.0",
     "commander": "^6.0.0",
-    "cross-unzip": "^0.2.1",
     "follow-redirects": "^1.13.0",
     "fs-extra": "^9.0.1",
     "posterus": "^0.4.7",
-    "which": "^2.0.2",
-    "win-7zip": "^0.1.1"
+    "which": "^2.0.2"
   },
   "devDependencies": {
     "eslint": "^7.7.0",
@@ -61,7 +59,35 @@
     ]
   },
   "binaries": {
-    "ffmpeg": "3.3.4",
-    "packager": "1.6.2"
+    "ffmpeg": {
+      "win": "https://gitlab.com/avvertix/ffmpeg-binaries/-/package_files/5777246/download",
+      "linux": "https://gitlab.com/avvertix/ffmpeg-binaries/-/package_files/5777248/download",
+      "macos": "https://gitlab.com/avvertix/ffmpeg-binaries/-/package_files/5777244/download"
+    },
+    "ffprobe": {
+      "win": "https://gitlab.com/avvertix/ffmpeg-binaries/-/package_files/5777247/download",
+      "linux": "https://gitlab.com/avvertix/ffmpeg-binaries/-/package_files/5777249/download",
+      "macos": "https://gitlab.com/avvertix/ffmpeg-binaries/-/package_files/5777245/download"
+    },
+    "packager": {
+      "win": "https://github.com/google/shaka-packager/releases/download/v1.6.2/packager-win.exe",
+      "macos": "https://github.com/google/shaka-packager/releases/download/v1.6.2/packager-osx",
+      "linux": "https://github.com/google/shaka-packager/releases/download/v1.6.2/packager-linux"
+    },
+    "ffmpeg_checksum": {
+      "win": "64310dd7ade81d62c7ac2b044467989ed4b4f3cd2fa483c8e0debcf05063343a",
+      "linux": "e1c8c3c8c2073d9f83a8d74423c3eff79eaaa4227ca427720cab314eee1d7c57",
+      "macos": "91a0558aed6496a1bdd82ac0fcd70393198c0de03c386c9a0b1e4e467ea3f999"
+    },
+    "ffprobe_checksum": {
+      "win": "93bba8543157026cf72308454414e6ccefac9984aac4f1a0eccb9e1d5fbb0890",
+      "linux": "c0b7a30d3f199f4cda1279cc57ae21cd09559d4bb374a2f763a57d279d23d12d",
+      "macos": "3e10d94a766827d86857d3e6df0e9ef5b447b0855636ccf8bac56d6f80fb50ad"
+    },
+    "packager_checksum": {
+      "win": "e7d8d731685c18cddc15eb2ae343576ded16314f26a5244784e031369a646bef",
+      "macos": "acad4f7992f9509813c20bb22f5238a41774684cce727a76dd642fcef7db7dd4",
+      "linux": "cc19506eb315c79888e534f74a3938fda8e192c775579c841792553afb7c00a2"
+    }
   }
 }
