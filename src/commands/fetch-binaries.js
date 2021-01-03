@@ -89,7 +89,7 @@ function getBinary(name, url, checksum, platform) {
     return new Downloader(url, path)
       .then(function(f) {
         
-        if(platform === 'linux'){
+        if(platform === 'linux' || platform === 'macos'){
           try{
             fs.chmodSync(f, 0o775);
             Log.info("Permissions set for ", f);
