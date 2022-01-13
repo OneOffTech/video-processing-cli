@@ -14,7 +14,7 @@
   "dependencies": {
     "cli-color": "^2.0.0",
     "commander": "^6.0.0",
-    "follow-redirects": "^1.13.0",
+    "follow-redirects": "^1.14.7",
     "fs-extra": "^9.0.1",
     "posterus": "^0.4.7",
     "which": "^2.0.2"
